@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, GitCompareArrows, Plug } from "lucide-react";
+import { LayoutGrid, GitCompareArrows, Plug, Stethoscope } from "lucide-react";
 import { SITES } from "@/data/sites";
 import { PANEL, PANEL2, BORDER, TEXT, MUTED, ACCENT } from "@/lib/theme";
 import { Separator } from "@/components/ui/separator";
@@ -11,6 +11,7 @@ import { Mascot } from "@/components/Mascot";
 const NAV = [
   { href: "/", label: "概要", Icon: LayoutGrid },
   { href: "/trends", label: "横断トレンド", Icon: GitCompareArrows },
+  { href: "/diagnostics", label: "診断", Icon: Stethoscope },
   { href: "/connections", label: "API接続", Icon: Plug },
 ];
 
@@ -33,7 +34,7 @@ export function Sidebar() {
 
       <div className="p-2 flex md:flex-col gap-1 flex-shrink-0">
         {NAV.map(({ href, label, Icon }) => {
-          const active = pathname === href;
+          const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
             <Link
               key={href}

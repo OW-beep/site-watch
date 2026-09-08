@@ -276,19 +276,19 @@ export const STATUS: Record<Tone, { color: string; label: string }> = {
   moss: { color: "#34D399", label: "順調" },
   brass: { color: "#F5A623", label: "要対応" },
   rust: { color: "#F0576B", label: "停滞" },
-  paper: { color: "#8B929B", label: "様子見" },
+  paper: { color: "#7A6A57", label: "様子見" },
 };
 
 export const CONN_STATE: Record<Connection, { color: string; label: string }> = {
   connected: { color: "#34D399", label: "接続済み" },
   expired: { color: "#F5A623", label: "認可期限切れ" },
-  disconnected: { color: "#8B929B", label: "未接続" },
+  disconnected: { color: "#7A6A57", label: "未接続" },
 };
 
 export const MONEY_STATE: Record<MonetizationEntry["state"], { color: string; label: string }> = {
   active: { color: "#34D399", label: "稼働中" },
   pending: { color: "#F5A623", label: "検証中" },
-  todo: { color: "#8B929B", label: "未着手" },
+  todo: { color: "#7A6A57", label: "未着手" },
   blocked: { color: "#F0576B", label: "停止中" },
 };
 

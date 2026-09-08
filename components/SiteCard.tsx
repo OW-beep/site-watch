@@ -52,7 +52,7 @@ export function SiteCard({ site }: { site: Site }) {
         ))}
       </div>
 
-      <p className="text-[12px] mt-2.5 leading-relaxed line-clamp-2" style={{ color: "#9AA1AA" }}>
+      <p className="text-[12px] mt-2.5 leading-relaxed line-clamp-2" style={{ color: MUTED }}>
         {site.note}
       </p>
     </div>

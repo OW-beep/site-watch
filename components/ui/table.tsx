@@ -1,4 +1,5 @@
 import { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes, forwardRef } from "react";
+import { BORDER } from "@/lib/theme";
 
 function cx(...c: (string | undefined | false)[]) {
   return c.filter(Boolean).join(" ");
@@ -25,7 +26,7 @@ TableBody.displayName = "TableBody";
 
 export const TableRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
   ({ className, style, ...props }, ref) => (
-    <tr ref={ref} className={cx("border-b", className)} style={{ borderColor: "#262B31", ...style }} {...props} />
+    <tr ref={ref} className={cx("border-b", className)} style={{ borderColor: BORDER, ...style }} {...props} />
   )
 );
 TableRow.displayName = "TableRow";

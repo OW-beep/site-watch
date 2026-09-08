@@ -3,7 +3,7 @@ import { Topbar } from "@/components/Topbar";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { SITES, CONN_STATE, Connection } from "@/data/sites";
-import { TEXT, MUTED, BORDER } from "@/lib/theme";
+import { TEXT, MUTED, BORDER, TEXT_SOFT } from "@/lib/theme";
 
 const CONN_ICON: Record<Connection, any> = {
   connected: CheckCircle2,
@@ -89,7 +89,7 @@ export default function ConnectionsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ol className="text-sm space-y-1.5 list-decimal list-inside" style={{ color: "#C6CAD1" }}>
+            <ol className="text-sm space-y-1.5 list-decimal list-inside" style={{ color: TEXT_SOFT }}>
               <li>Google Cloud ConsoleでOAuthクライアントを作成</li>
               <li>各サイトのSearch Consoleプロパティに対して認可（同一アカウント管理なら一括認可も検討）</li>
               <li>Vercel Cron Jobsで週次バッチを実行し、searchanalytics.query エンドポイントを叩く</li>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { SITES, STATUS, sum } from "@/data/sites";
-import { PANEL, BORDER, TEXT, MUTED } from "@/lib/theme";
+import { PANEL, BORDER, TEXT, MUTED, TEXT_SOFT } from "@/lib/theme";
 import { StatusBadge, Sparkline } from "@/components/StatusBits";
 import { Mascot } from "@/components/Mascot";
 import { useZoomNav } from "@/components/ZoomTransition";
@@ -88,7 +88,7 @@ export function Spotlight() {
             </div>
           </div>
         </div>
-        <p className="text-sm mt-3 leading-relaxed" style={{ color: "#B8BFC9" }}>
+        <p className="text-sm mt-3 leading-relaxed" style={{ color: TEXT_SOFT }}>
           {s.note}
         </p>
         <div className="mt-3">

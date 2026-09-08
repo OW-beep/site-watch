@@ -1,4 +1,5 @@
 import { HTMLAttributes, forwardRef } from "react";
+import { PANEL, BORDER } from "@/lib/theme";
 
 function cx(...c: (string | undefined | false)[]) {
   return c.filter(Boolean).join(" ");
@@ -8,8 +9,8 @@ export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, style, ...props }, ref) => (
     <div
       ref={ref}
-      className={cx("rounded-lg border", className)}
-      style={{ background: "#131619", borderColor: "#262B31", ...style }}
+      className={cx("rounded-lg border shadow-sm", className)}
+      style={{ background: PANEL, borderColor: BORDER, ...style }}
       {...props}
     />
   )

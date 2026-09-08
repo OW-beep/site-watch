@@ -60,7 +60,7 @@ export default function TrendsPage() {
                                       background: `${s.color}${Math.round(alpha * 200 + 20)
                                         .toString(16)
                                         .padStart(2, "0")}`,
-                                      color: alpha > 0.5 ? "#0B0D10" : MUTED,
+                                      color: alpha > 0.5 ? "white" : TEXT,
                                     }}
                                   >
                                     {v}
