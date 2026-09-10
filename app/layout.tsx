@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import { ZoomProvider } from "@/components/ZoomTransition";
+import { PlanProvider } from "@/lib/plan";
 import { BG } from "@/lib/theme";
 
 export const metadata: Metadata = {
@@ -20,12 +21,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="font-ui" style={{ background: BG }}>
-        <div className="min-h-screen flex flex-col md:flex-row">
-          <Sidebar />
-          <div className="flex-1 min-w-0">
-            <ZoomProvider>{children}</ZoomProvider>
+        <PlanProvider>
+          <div className="min-h-screen flex flex-col md:flex-row">
+            <Sidebar />
+            <div className="flex-1 min-w-0">
+              <ZoomProvider>{children}</ZoomProvider>
+            </div>
           </div>
-        </div>
+        </PlanProvider>
       </body>
     </html>
   );

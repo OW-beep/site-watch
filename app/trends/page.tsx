@@ -2,6 +2,7 @@ import { Topbar } from "@/components/Topbar";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import { CsvExportButton } from "@/components/monetization/CsvExportButton";
 import { SITES, WEEKS, sum, growth, LOW_VOLUME_THRESHOLD } from "@/data/sites";
 import { TEXT, MUTED } from "@/lib/theme";
 
@@ -15,6 +16,9 @@ export default function TrendsPage() {
     <>
       <Topbar title="横断トレンド" subtitle="サイト間の比較・週次ヒートマップ" />
       <div className="p-6 space-y-6">
+        <div className="flex justify-end">
+          <CsvExportButton />
+        </div>
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm" style={{ color: TEXT }}>

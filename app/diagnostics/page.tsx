@@ -1,10 +1,18 @@
 import Link from "next/link";
-import { Sparkles, Gauge, Copy, Wrench, Compass } from "lucide-react";
+import { Sparkles, Gauge, Copy, Wrench, Compass, Search, BookOpen, Database } from "lucide-react";
 import { Topbar } from "@/components/Topbar";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { RecommendedTools } from "@/components/monetization/RecommendedTools";
 import { TEXT, MUTED, ACCENT, PANEL2 } from "@/lib/theme";
 
 const DIAGNOSTICS = [
+  {
+    href: "/diagnostics/site-checker",
+    Icon: Search,
+    title: "URLサイト診断",
+    description: "URLを入力するだけで、公開情報（メタタグ・OGP・robots.txt・sitemap.xml等）から簡易診断します。",
+    tag: "URLを貼るだけ・競合調査にも",
+  },
   {
     href: "/diagnostics/hedgehog-type",
     Icon: Sparkles,
@@ -40,6 +48,13 @@ const DIAGNOSTICS = [
     description: "サイトのジャンルと規模から、AdSense・アフィリエイト等どの方針を優先すべきか提案します。",
     tag: "ジャンル別の実例つき",
   },
+  {
+    href: "/diagnostics/opendata-ideas",
+    Icon: Database,
+    title: "オープンデータねたジェネレーター",
+    description: "キーワードから政府データカタログサイト（data.go.jp）の実在するデータセットを検索し、記事の切り口候補を自動生成します。",
+    tag: "登録不要・実データベース",
+  },
 ];
 
 export default function DiagnosticsHub() {
@@ -71,6 +86,22 @@ export default function DiagnosticsHub() {
             </Link>
           ))}
         </div>
+
+        <Link
+          href="/playbooks"
+          className="flex items-center gap-3 rounded-lg border px-4 py-3 transition-transform hover:-translate-y-0.5"
+          style={{ borderColor: ACCENT + "33", background: ACCENT + "0D" }}
+        >
+          <BookOpen size={16} color={ACCENT} />
+          <div className="text-sm" style={{ color: TEXT }}>
+            <span className="font-medium" style={{ color: ACCENT }}>
+              プレイブック
+            </span>
+            　各診断の元になった実体験を、詳しい読み物として販売しています
+          </div>
+        </Link>
+
+        <RecommendedTools />
       </div>
     </>
   );

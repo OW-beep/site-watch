@@ -3,13 +3,16 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { BarChart, Bar, XAxis, YAxis, Tooltip as RTooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts";
-import { ArrowLeft, CheckCircle2, AlertTriangle, Circle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertTriangle, Circle, Target, FileDown } from "lucide-react";
 import { KPI, StatusBadge } from "@/components/StatusBits";
 import { Mascot } from "@/components/Mascot";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { SITES, STATUS, CONN_STATE, MONEY_STATE, WEEKS, sum, Connection } from "@/data/sites";
-import { PANEL2, BORDER, TEXT, MUTED, TEXT_SOFT } from "@/lib/theme";
+import { PANEL2, BORDER, TEXT, MUTED, TEXT_SOFT, ACCENT } from "@/lib/theme";
+import { buildMonetizationPlan } from "@/lib/monetizationPlan";
+import { ProGate } from "@/components/monetization/ProGate";
 
 const CONN_ICON: Record<Connection, any> = {
   connected: CheckCircle2,
@@ -35,10 +38,11 @@ export default function SiteDetailPage() {
   const conn = CONN_STATE[site.connection];
   const ConnIcon = CONN_ICON[site.connection];
   const chartData = WEEKS.map((w, i) => ({ week: w, clicks: site.clicksWeekly[i], impressions: site.impressionsWeekly[i] }));
+  const plan = buildMonetizationPlan(site);
 
   return (
     <div className="p-6 space-y-6">
-      <button onClick={() => router.push("/")} className="text-xs inline-flex items-center gap-1.5" style={{ color: MUTED }}>
+      <button onClick={() => router.push("/")} className="text-xs inline-flex items-center gap-1.5 no-print" style={{ color: MUTED }}>
         <ArrowLeft size={13} /> 一覧に戻る
       </button>
 
@@ -57,11 +61,16 @@ export default function SiteDetailPage() {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 no-print">
           <StatusBadge tone={site.tone} />
           <Badge className="gap-1 border-0" style={{ background: conn.color + "22", color: conn.color }}>
             <ConnIcon size={12} /> {conn.label}
           </Badge>
+          <ProGate label="PDFレポート出力はProで" compact>
+            <Button variant="secondary" onClick={() => window.print()}>
+              <FileDown size={14} /> PDFレポート出力
+            </Button>
+          </ProGate>
         </div>
       </div>
 
@@ -96,6 +105,33 @@ export default function SiteDetailPage() {
               </BarChart>
             </ResponsiveContainer>
           </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm flex items-center gap-2" style={{ color: TEXT }}>
+            <Target size={14} color={plan.color} />
+            収益化アクションプラン
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex items-center gap-2">
+            <span
+              className="text-xs px-2.5 py-1 rounded-full font-medium"
+              style={{ background: plan.color + "22", color: plan.color }}
+            >
+              {plan.title}
+            </span>
+          </div>
+          <ul className="space-y-1.5">
+            {plan.actions.map((a) => (
+              <li key={a} className="text-[13px] leading-relaxed flex gap-2" style={{ color: TEXT_SOFT }}>
+                <span style={{ color: ACCENT }}>・</span>
+                {a}
+              </li>
+            ))}
+          </ul>
         </CardContent>
       </Card>
 
