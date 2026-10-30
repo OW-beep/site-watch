@@ -1,34 +1,37 @@
 import type { Metadata } from "next";
+import { Yusei_Magic, Klee_One } from "next/font/google";
+import Script from "next/script";
+import SiteHeader from "@/components/SiteHeader";
+import SiteFooter from "@/components/SiteFooter";
+import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, ADSENSE_CLIENT } from "@/lib/site";
 import "./globals.css";
-import { Sidebar } from "@/components/Sidebar";
-import { ZoomProvider } from "@/components/ZoomTransition";
-import { PlanProvider } from "@/lib/plan";
-import { BG } from "@/lib/theme";
+
+const yusei = Yusei_Magic({ weight: "400", subsets: ["latin"], variable: "--font-yusei", display: "swap" });
+const klee = Klee_One({ weight: ["400", "600"], subsets: ["latin"], variable: "--font-klee", display: "swap" });
+
+const gsc = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 
 export const metadata: Metadata = {
-  title: "さいとうぉっち | 9サイト運営台帳",
-  description: "自社サイト群のSearch Console実績・収益化状況・開発ログをまとめた社内向けダッシュボード",
-  robots: { index: false, follow: false },
+  metadataBase: new URL(SITE_URL),
+  title: { default: `${SITE_NAME} | ${SITE_TAGLINE}`, template: `%s | ${SITE_NAME}` },
+  description: SITE_DESCRIPTION,
+  openGraph: { type: "website", locale: "ja_JP", siteName: SITE_NAME, title: `${SITE_NAME} | ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, url: SITE_URL },
+  twitter: { card: "summary", title: SITE_NAME, description: SITE_DESCRIPTION },
+  ...(gsc ? { verification: { google: gsc } } : {}),
+  ...(ADSENSE_CLIENT ? { other: { "google-adsense-account": ADSENSE_CLIENT } } : {}),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="font-ui" style={{ background: BG }}>
-        <PlanProvider>
-          <div className="min-h-screen flex flex-col md:flex-row">
-            <Sidebar />
-            <div className="flex-1 min-w-0">
-              <ZoomProvider>{children}</ZoomProvider>
-            </div>
-          </div>
-        </PlanProvider>
+      <body className={`${yusei.variable} ${klee.variable} font-sans`}>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+        {ADSENSE_CLIENT && (
+          <Script async strategy="afterInteractive" crossOrigin="anonymous"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`} />
+        )}
       </body>
     </html>
   );

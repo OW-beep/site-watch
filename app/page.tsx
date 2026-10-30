@@ -1,125 +1,73 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { Target } from "lucide-react";
-import { Topbar } from "@/components/Topbar";
-import { KPI } from "@/components/StatusBits";
-import { Spotlight } from "@/components/Spotlight";
-import { SiteCard } from "@/components/SiteCard";
-import { SITES, STATUS, sum, Tone } from "@/data/sites";
-import { TEXT, MUTED, BORDER, ACCENT, PANEL2 } from "@/lib/theme";
-import { buildMonetizationPlan } from "@/lib/monetizationPlan";
-import { usePlan, FREE_SITE_LIMIT } from "@/lib/plan";
-import { UpgradeBanner } from "@/components/monetization/UpgradeBanner";
-import { ProGate } from "@/components/monetization/ProGate";
+import PostCard from "@/components/PostCard";
+import { getAllPosts } from "@/lib/posts";
+import { CATEGORIES } from "@/lib/categories";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
-export default function OverviewPage() {
-  const [toneFilter, setToneFilter] = useState<Set<Tone>>(() => new Set(Object.keys(STATUS) as Tone[]));
-  const { isPro } = usePlan();
+const KUN = [
+  "スマホは置いて、まず考えるべし",
+  "AIの答えは、一度疑ってかかるべし",
+  "迷ったら、紙に書き出すべし",
+  "続かなくても、恥じるべからず",
+];
 
-  const totalClicks = SITES.reduce((a, s) => a + sum(s.clicksWeekly), 0);
-  const totalImpr = SITES.reduce((a, s) => a + sum(s.impressionsWeekly), 0);
-  const avgCtr = (SITES.reduce((a, s) => a + s.ctr, 0) / SITES.length).toFixed(2);
-  const plans = SITES.map((s) => ({ site: s, plan: buildMonetizationPlan(s) }));
-  const adsenseApprovedCount = 0; // 2026-09-10時点：AdSense合格サイトはまだ0件
-  const topCandidate = [...plans]
-    .filter((p) => p.plan.readiness === "ready")
-    .sort((a, b) => b.plan.clicks - a.plan.clicks)[0];
-
-  function toggleTone(tone: Tone) {
-    setToneFilter((prev) => {
-      const next = new Set(prev);
-      next.has(tone) ? next.delete(tone) : next.add(tone);
-      return next.size ? next : prev;
-    });
-  }
-
-  const filtered = SITES.filter((s) => toneFilter.has(s.tone));
-
+export default function Home() {
+  const latest = getAllPosts().filter((p) => !p.noindex).slice(0, 6);
   return (
-    <>
-      <Topbar title="概要" subtitle="9サイトのSearch Console実績・収益化状況を一望" />
-      <div className="p-6 space-y-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <KPI label="直近8週クリック合計" value={totalClicks} />
-          <KPI label="直近8週表示回数合計" value={totalImpr.toLocaleString()} />
-          <KPI label="平均CTR（単純平均）" value={`${avgCtr}%`} />
-          <KPI label="AdSense合格サイト数" value={`${adsenseApprovedCount} / ${SITES.length}`} sub="2026-09-10時点・まだ合格実績なし" />
+    <main className="max-w-5xl mx-auto px-5">
+      <section className="pt-14 pb-12 text-center">
+        <span className="stamp text-sm px-3 py-1 mb-6">入門者 随時募集中</span>
+        <h1 className="font-display text-5xl md:text-7xl leading-tight mt-4">
+          <span className="marker">{SITE_NAME}</span>
+        </h1>
+        <p className="font-hand font-semibold text-xl md:text-2xl mt-6">{SITE_TAGLINE}</p>
+        <p className="text-sm text-sumi-soft mt-4 max-w-xl mx-auto leading-relaxed">
+          スマホを置いて、紙とペンで頭を使う稽古場。やってみた記録と、続けるための「型」を載せています。
+        </p>
+        <div className="mt-8 flex gap-4 justify-center flex-wrap">
+          <Link href="/category/nyumon" className="fuda px-6 py-3 font-bold bg-marker">まずは入門から</Link>
+          <Link href="/training" className="fuda px-6 py-3 font-bold">稽古メニューを見る</Link>
         </div>
+      </section>
 
-        <UpgradeBanner />
+      <section aria-labelledby="kun" className="fuda p-6 md:p-8 bg-paper-kraft">
+        <h2 id="kun" className="font-display text-2xl mb-4">道場訓</h2>
+        <ol className="space-y-2 font-hand font-semibold text-lg">
+          {KUN.map((k, i) => (
+            <li key={k}><span className="text-shu mr-2">{["一", "二", "三", "四"][i]}、</span>{k}</li>
+          ))}
+        </ol>
+      </section>
 
-        {topCandidate && (
-          <Link
-            href={`/sites/${topCandidate.site.id}`}
-            className="flex items-start gap-3 rounded-lg border px-4 py-3 transition-transform hover:-translate-y-0.5"
-            style={{ borderColor: ACCENT + "55", background: ACCENT + "0F" }}
-          >
-            <Target size={16} color={ACCENT} className="flex-shrink-0 mt-0.5" />
-            <div className="text-sm" style={{ color: TEXT }}>
-              <span className="font-medium" style={{ color: ACCENT }}>
-                収益化の最有力候補：{topCandidate.site.name}
-              </span>
-              　直近8週クリック{topCandidate.plan.clicks}件で最も実績がある未申請サイトです。まずはここから審査申請を検討してみましょう。
-            </div>
-          </Link>
+      <section aria-labelledby="cat" className="mt-16">
+        <h2 id="cat" className="font-display text-2xl mb-6">稽古場を選ぶ</h2>
+        <ul className="grid grid-cols-2 md:grid-cols-3 gap-5">
+          {CATEGORIES.map((c) => (
+            <li key={c.slug}>
+              <Link href={`/category/${c.slug}`} className="fuda block p-4 h-full">
+                <span className="stamp text-xl px-2 leading-none">{c.kanji}</span>
+                <p className="font-hand font-semibold text-lg mt-3">{c.label}</p>
+                <p className="text-xs text-sumi-soft mt-1 leading-relaxed">{c.desc}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="new" className="mt-16">
+        <h2 id="new" className="font-display text-2xl mb-6">新着の稽古</h2>
+        {latest.length === 0 ? (
+          <p className="text-sm text-sumi-soft">稽古の準備中です。もうしばらくお待ちください。</p>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-6">
+            {latest.map((p) => <PostCard key={p.slug} post={p} />)}
+          </div>
         )}
+      </section>
 
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href="/diagnostics/adsense-checker"
-            className="text-xs px-3 py-1.5 rounded-full border"
-            style={{ borderColor: BORDER, background: PANEL2, color: MUTED }}
-          >
-            AdSense合格可能性チェッカーを開く
-          </Link>
-          <Link
-            href="/diagnostics/monetization-roadmap"
-            className="text-xs px-3 py-1.5 rounded-full border"
-            style={{ borderColor: BORDER, background: PANEL2, color: MUTED }}
-          >
-            収益化ロードマップ診断を開く
-          </Link>
-        </div>
-
-        <Spotlight />
-
-        <div>
-          <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
-            <div className="text-sm font-medium" style={{ color: TEXT }}>
-              サイト一覧
-            </div>
-            <div className="flex gap-1.5 flex-wrap">
-              {(Object.entries(STATUS) as [Tone, { color: string; label: string }][]).map(([k, v]) => (
-                <button
-                  key={k}
-                  onClick={() => toggleTone(k)}
-                  className="text-[11px] px-2.5 py-1 rounded-full border"
-                  style={{
-                    color: toneFilter.has(k) ? v.color : MUTED,
-                    borderColor: toneFilter.has(k) ? v.color + "55" : BORDER,
-                    background: toneFilter.has(k) ? v.color + "14" : "transparent",
-                  }}
-                >
-                  {v.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-            {filtered.map((s, i) =>
-              !isPro && i >= FREE_SITE_LIMIT ? (
-                <ProGate key={s.id} label="全サイト表示はProで">
-                  <SiteCard site={s} />
-                </ProGate>
-              ) : (
-                <SiteCard key={s.id} site={s} />
-              )
-            )}
-          </div>
-        </div>
-      </div>
-    </>
+      <section className="mt-16 text-center">
+        <Link href="/about" className="font-hand font-semibold underline">道場主について</Link>
+      </section>
+    </main>
   );
 }
