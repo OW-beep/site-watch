@@ -11,6 +11,7 @@ export const metadata = {
 const order = (p: PostMeta) => BELTS.indexOf(p.belt);
 const TRACKS = [
   { key: "基礎", title: "基礎の型", lead: "紙とペンだけでできる、考える習慣のトレーニング。" },
+  { key: "AI式", title: "AI式の考え方", lead: "AIが難しい依頼に答えるときの「進め方」を、人が使える形に分けて練習します。" },
   { key: "コンサル式", title: "コンサル式", lead: "構造化・フェルミ推定・仮説思考など、仕事の現場で使う考え方を、身近な題材から練習します。" },
 ];
 

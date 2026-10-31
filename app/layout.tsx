@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
 import { Yusei_Magic, Klee_One } from "next/font/google";
-import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, ADSENSE_CLIENT } from "@/lib/site";
+import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, ADSENSE_CLIENT, GSC_VERIFICATION } from "@/lib/site";
 import "./globals.css";
 
 const yusei = Yusei_Magic({ weight: "400", subsets: ["latin"], variable: "--font-yusei", display: "swap" });
 const klee = Klee_One({ weight: ["400", "600"], subsets: ["latin"], variable: "--font-klee", display: "swap" });
-
-const gsc = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -17,21 +14,23 @@ export const metadata: Metadata = {
   description: SITE_DESCRIPTION,
   openGraph: { type: "website", locale: "ja_JP", siteName: SITE_NAME, title: `${SITE_NAME} | ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, url: SITE_URL },
   twitter: { card: "summary", title: SITE_NAME, description: SITE_DESCRIPTION },
-  ...(gsc ? { verification: { google: gsc } } : {}),
-  ...(ADSENSE_CLIENT ? { other: { "google-adsense-account": ADSENSE_CLIENT } } : {}),
+  verification: GSC_VERIFICATION ? { google: GSC_VERIFICATION } : undefined,
+  other: ADSENSE_CLIENT ? { "google-adsense-account": ADSENSE_CLIENT } : undefined,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
+      <head>
+        {ADSENSE_CLIENT && (
+          <script async crossOrigin="anonymous"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`} />
+        )}
+      </head>
       <body className={`${yusei.variable} ${klee.variable} font-sans`}>
         <SiteHeader />
         {children}
         <SiteFooter />
-        {ADSENSE_CLIENT && (
-          <Script async strategy="afterInteractive" crossOrigin="anonymous"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`} />
-        )}
       </body>
     </html>
   );

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/site";
+import { SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = { title: "運営者情報", description: `${SITE_NAME}の運営方針と、道場主のプロフィールです。` };
 
@@ -33,6 +33,7 @@ export default function AboutPage() {
           <li>実際にやってみた体験を中心に書きます。効果を断定せず、「私の場合」として記録します</li>
           <li>研究や統計に触れるときは、出典を明記します</li>
           <li>他サイトの文章を転載せず、すべて自分の言葉で書きます</li>
+          <li>下書きや整理にAIを使うことがあります。内容は筆者が確認し、編集したうえで掲載します</li>
           <li>誤りや古い情報が見つかった場合は、確認のうえ修正します</li>
         </ul>
       </section>
@@ -49,7 +50,7 @@ export default function AboutPage() {
         <p>当サイトは、Google AdSenseなどの第三者配信の広告サービスを利用しています。詳しくは<Link href="/privacy" className="underline">プライバシーポリシー</Link>をご覧ください。</p>
       </section>
 
-      <p><Link href="/contact" className="underline font-bold">お問い合わせはこちら →</Link></p>
+      <p>連絡先:<a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a>(<Link href="/contact" className="underline font-bold">お問い合わせページ →</Link>)</p>
     </main>
   );
 }

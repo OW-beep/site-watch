@@ -9,8 +9,13 @@ export default function ContactForm() {
   if (!FORMSPREE_ID) {
     return (
       <div className="fuda p-6 text-sm leading-relaxed">
-        <p>現在フォームを準備中です。恐れ入りますが、メールで直接ご連絡ください。</p>
-        {CONTACT_EMAIL && <p className="mt-2 font-bold">{CONTACT_EMAIL}</p>}
+        <p>お問い合わせは、下記のメールアドレスまでお送りください。内容を確認のうえ、ご連絡いたします。</p>
+        {CONTACT_EMAIL && (
+          <p className="mt-3 font-bold text-lg">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a>
+          </p>
+        )}
+        <p className="mt-3 text-xs text-sumi-soft">返信までに数日いただく場合があります。</p>
       </div>
     );
   }

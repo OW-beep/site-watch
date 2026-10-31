@@ -24,6 +24,9 @@ tldr:
 ## 見出し(##)が目次になります
 ```
 - `noindex: true` を付けると、一覧・サイトマップに出ません(テンプレートは付いています)。
+- 公開する記事には**図解を必ず1枚以上**入れます(`public/images/` にSVG、記事に `![説明](/images/xxx.svg)`)。入っていないと、ビルドが止まります。
+- 難しい言葉は、`lib/glossary.ts` に説明を足すと、記事の「用語メモ」に自動で出ます。
+- 図解は `scripts/diagrams.py` で作っています(`python3 scripts/diagrams.py`)。
 - `_template-*.md` は書き換えて使うか、削除してください。
 
 ## Vercelへのデプロイ
@@ -38,3 +41,7 @@ tldr:
 3. AdSenseで「サイトを追加」→ 申請
 4. `NEXT_PUBLIC_ADSENSE_CLIENT` を設定すると、広告スクリプトと `/ads.txt` が自動で出ます
 5. 承認後、広告ユニットIDを `NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE` に登録(記事末尾に表示)
+
+## 公開日(date)について
+- 記事の `date:` は、画面と検索エンジンに「公開日」として出ます。**実際に公開した日**に合わせてください。
+- 未来の日付があると、ビルドが止まります(`scripts/check-posts.mjs`)。

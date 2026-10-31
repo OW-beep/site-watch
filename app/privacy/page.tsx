@@ -1,4 +1,4 @@
-import { SITE_NAME } from "@/lib/site";
+import { SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = { title: "プライバシーポリシー" };
 const h2 = "font-display text-xl mb-3 border-l-8 border-shu pl-3";
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       </section>
       <section>
         <h2 className={h2}>お問い合わせについて</h2>
-        <p>お問い合わせの際にいただいたお名前やメールアドレスなどの個人情報は、お問い合わせへの回答以外の目的では利用しません。</p>
+        <p>お問い合わせの際にいただいたお名前やメールアドレスなどの個人情報は、お問い合わせへの回答以外の目的では利用しません。お問い合わせ先:{CONTACT_EMAIL}</p>
       </section>
       <section>
         <h2 className={h2}>免責事項</h2>

@@ -6,6 +6,7 @@ import BeltChip from "@/components/BeltChip";
 import PostCard from "@/components/PostCard";
 import { getAllPosts, getPost } from "@/lib/posts";
 import { getCategoryByLabel } from "@/lib/categories";
+import { termsIn } from "@/lib/glossary";
 import { SITE_NAME, SITE_URL, SLOT_ARTICLE } from "@/lib/site";
 
 export function generateStaticParams() { return getAllPosts().map((p) => ({ slug: p.slug })); }
@@ -27,6 +28,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
   if (!post) notFound();
   const { meta, body, toc } = post;
   const cat = getCategoryByLabel(meta.category);
+  const terms = termsIn(body.replace(/<[^>]+>/g, ""));
   const related = getAllPosts().filter((p) => p.category === meta.category && p.slug !== meta.slug && !p.noindex).slice(0, 2);
   const jsonLd = {
     "@context": "https://schema.org", "@type": "Article", headline: meta.title,
@@ -57,6 +59,17 @@ export default async function PostPage({ params }: { params: { slug: string } })
           <p className="font-bold mb-2">目次</p>
           <ol className="list-decimal pl-5 space-y-1">{toc.map((t) => <li key={t.id}><a href={`#${t.id}`} className="underline">{t.text}</a></li>)}</ol>
         </nav>
+      )}
+
+      {terms.length > 0 && (
+        <aside className="border-2 border-sumi bg-white p-5 mb-8 text-sm" aria-label="用語メモ">
+          <p className="font-bold mb-3">用語メモ(むずかしい言葉の説明)</p>
+          <dl className="space-y-2 leading-relaxed">
+            {terms.map((t) => (
+              <div key={t.term}><dt className="inline font-bold text-shu">{t.term}</dt><dd className="inline">:{t.desc}</dd></div>
+            ))}
+          </dl>
+        </aside>
       )}
 
       <article className="prose prose-lg max-w-none prose-dojo" dangerouslySetInnerHTML={{ __html: body }} />

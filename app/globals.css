@@ -29,6 +29,13 @@ body {
     padding-left: .6em; margin-top: 2.4em; font-weight: 400; }
   .prose-dojo h3 { font-family: var(--font-klee); font-weight: 600; }
   .prose-dojo a { color: #2f5dab; }
+  .prose-dojo img { display: block; width: 100%; height: auto; margin: 2em 0; border: 2.5px solid #1a1a1a; box-shadow: 5px 5px 0 #1a1a1a; background: #fbf9f3; }
+  .prose-dojo details { border: 2.5px solid #1a1a1a; background: #fff; box-shadow: 5px 5px 0 #1a1a1a; margin: 1.6em 0; padding: 0 1.3em; }
+  .prose-dojo details[open] { background: #fffdf5; padding-bottom: .6em; }
+  .prose-dojo summary { cursor: pointer; font-family: var(--font-yusei); font-size: 1.05em; padding: .9em 0; list-style: none; }
+  .prose-dojo summary::-webkit-details-marker { display: none; }
+  .prose-dojo summary::before { content: "▶ "; color: #d8352a; }
+  .prose-dojo details[open] > summary::before { content: "▼ "; }
   .prose-dojo table { display: block; overflow-x: auto; }
 }
 @media (prefers-reduced-motion: reduce) { .fuda { transition: none; } }
