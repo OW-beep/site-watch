@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
+import { SITE_NAME, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
 
 export const metadata = { title: "運営者情報", description: `${SITE_NAME}の運営方針と、道場主のプロフィールです。` };
 
@@ -9,6 +9,17 @@ export default function AboutPage() {
   return (
     <main className="max-w-3xl mx-auto px-5 py-12 text-sm leading-loose space-y-10">
       <h1 className="font-display text-4xl"><span className="marker">運営者情報</span></h1>
+
+      <section>
+        <h2 className={h2}>サイト情報</h2>
+        <dl className="grid grid-cols-[7rem_1fr] gap-y-2 border-2 border-sumi bg-white p-5">
+          <dt className="font-bold">サイト名</dt><dd>{SITE_NAME}</dd>
+          <dt className="font-bold">URL</dt><dd>{SITE_URL}</dd>
+          <dt className="font-bold">運営者</dt><dd>{SITE_NAME} 道場主(個人運営)</dd>
+          <dt className="font-bold">開設</dt><dd>2026年</dd>
+          <dt className="font-bold">連絡先</dt><dd><a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a></dd>
+        </dl>
+      </section>
 
       <section>
         <h2 className={h2}>このサイトについて</h2>
@@ -41,7 +52,7 @@ export default function AboutPage() {
       <section>
         <h2 className={h2}>ご注意</h2>
         <p>
-          当サイトは、思考習慣や学び方に関する情報の提供を目的としており、医療・健康に関する診断、治療、予防を目的としたものではありません。健康上の不安がある場合は、医療機関にご相談ください。記事の内容は正確さに努めていますが、その完全性を保証するものではありません。
+          当サイトは、思考習慣や学び方に関する情報の提供を目的としており、医療・健康に関する助言を目的としたものではありません。健康上の不安がある場合は、医療機関にご相談ください。記事の内容は正確さに努めていますが、その完全性を保証するものではありません。
         </p>
       </section>
 

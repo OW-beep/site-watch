@@ -1,6 +1,6 @@
 import { SITE_NAME, CONTACT_EMAIL } from "@/lib/site";
 
-export const metadata = { title: "プライバシーポリシー" };
+export const metadata = { title: "プライバシーポリシー", description: "脱デジ道場の個人情報の取り扱い、広告配信(Google AdSense)とCookie、免責事項についての方針です。" };
 const h2 = "font-display text-xl mb-3 border-l-8 border-shu pl-3";
 
 export default function PrivacyPage() {
@@ -23,6 +23,14 @@ export default function PrivacyPage() {
       <section>
         <h2 className={h2}>免責事項</h2>
         <p>{SITE_NAME}は、掲載する情報の正確性に努めていますが、誤りや情報の古さが含まれる場合があります。当サイトの情報を利用して行う一切の行為について、責任を負いかねます。</p>
+      </section>
+      <section>
+        <h2 className={h2}>著作権・引用について</h2>
+        <p>当サイトの文章・図解の著作権は、運営者に帰属します。引用する場合は、出典として記事のURLを明記し、引用部分を明確に区別してください。無断での転載・複製はご遠慮ください。</p>
+      </section>
+      <section>
+        <h2 className={h2}>リンクについて</h2>
+        <p>当サイトへのリンクは、自由に設置していただいて構いません。連絡は不要です。ただし、公序良俗に反するサイトからのリンクはお断りします。</p>
       </section>
       <section>
         <h2 className={h2}>プライバシーポリシーの変更について</h2>

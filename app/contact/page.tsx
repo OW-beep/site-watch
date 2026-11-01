@@ -1,6 +1,6 @@
 import ContactForm from "@/components/ContactForm";
 
-export const metadata = { title: "お問い合わせ" };
+export const metadata = { title: "お問い合わせ", description: "脱デジ道場へのご質問、記事内容のご指摘、取材・ご連絡はこちらからお送りください。" };
 
 export default function ContactPage() {
   return (

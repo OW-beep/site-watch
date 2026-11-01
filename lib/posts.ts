@@ -51,5 +51,13 @@ export async function getPost(slug: string) {
     toc.push({ id, text: inner.replace(/<[^>]+>/g, "") });
     return `<h2 id="${id}">${inner}</h2>`;
   });
-  return { meta: meta(slug, data), body, toc };
+  const sized = body.replace(/<img src="(\/images\/[^"]+\.svg)" alt="([^"]*)">/g, (m, src: string, alt: string) => {
+    try {
+      const svg = fs.readFileSync(path.join(process.cwd(), "public", src), "utf8");
+      const w = svg.match(/<svg[^>]*\swidth="(\d+)"/)?.[1];
+      const h = svg.match(/<svg[^>]*\sheight="(\d+)"/)?.[1];
+      return w && h ? `<img src="${src}" alt="${alt}" width="${w}" height="${h}" loading="lazy" decoding="async">` : m;
+    } catch { return m; }
+  });
+  return { meta: meta(slug, data), body: sized, toc };
 }

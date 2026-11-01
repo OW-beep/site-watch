@@ -27,7 +27,7 @@ tldr:
 - 公開する記事には**図解を必ず1枚以上**入れます(`public/images/` にSVG、記事に `![説明](/images/xxx.svg)`)。入っていないと、ビルドが止まります。
 - 難しい言葉は、`lib/glossary.ts` に説明を足すと、記事の「用語メモ」に自動で出ます。
 - 図解は `scripts/diagrams.py` で作っています(`python3 scripts/diagrams.py`)。
-- `_template-*.md` は書き換えて使うか、削除してください。
+- 記事の下書き用テンプレートは `docs/templates/` にあります(`content/posts/` に置くと公開されます)。
 
 ## Vercelへのデプロイ
 1. GitHubにpush → Vercelで「Add New Project」
