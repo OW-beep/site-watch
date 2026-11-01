@@ -31,7 +31,7 @@ export default function TrainingPage() {
           {BELTS.map((b) => (
             <li key={b} className="flex items-start gap-3">
               <BeltChip belt={b} />
-              <span className="leading-relaxed">{BELT_INFO[b].desc}</span>
+              <Link href={`/level/${b}`} className="leading-relaxed underline">{BELT_INFO[b].desc}</Link>
             </li>
           ))}
         </ul>

@@ -2,6 +2,8 @@ import Link from "next/link";
 import PostCard from "@/components/PostCard";
 import { getAllPosts } from "@/lib/posts";
 import { CATEGORIES } from "@/lib/categories";
+import { BELTS } from "@/lib/posts";
+import { BELT_INFO } from "@/components/BeltChip";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
 const KUN = [
@@ -12,7 +14,10 @@ const KUN = [
 ];
 
 export default function Home() {
-  const latest = getAllPosts().filter((p) => !p.noindex).slice(0, 6);
+  const all = getAllPosts().filter((p) => !p.noindex);
+  const latest = all.slice(0, 6);
+  const levels = BELTS.filter((b) => all.some((p) => p.belt === b));
+  const cats = CATEGORIES.filter((c) => all.some((p) => p.category === c.label));
   return (
     <main className="max-w-5xl mx-auto px-5">
       <section className="pt-14 pb-12 text-center">
@@ -25,9 +30,24 @@ export default function Home() {
           スマホを置いて、紙とペンで頭を使う稽古場。やってみた記録と、続けるための「型」を載せています。
         </p>
         <div className="mt-8 flex gap-4 justify-center flex-wrap">
-          <Link href="/category/nyumon" className="fuda px-6 py-3 font-bold bg-marker">まずは入門から</Link>
+          <Link href="/level/white" className="fuda px-6 py-3 font-bold bg-marker">まずは白帯(入門)から</Link>
           <Link href="/training" className="fuda px-6 py-3 font-bold">稽古メニューを見る</Link>
         </div>
+      </section>
+
+      <section aria-labelledby="lv" className="mb-14">
+        <h2 id="lv" className="font-display text-2xl mb-2">レベルで選ぶ</h2>
+        <p className="text-sm text-sumi-soft mb-5">難易度を帯の色で分けています。いまの自分に合うところから、どうぞ。</p>
+        <ul className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          {levels.map((b) => (
+            <li key={b}>
+              <Link href={`/level/${b}`} className="fuda block h-full">
+                <span className={`block border-b-2 border-sumi px-3 py-1.5 text-xs font-bold ${BELT_INFO[b].cls}`}>{BELT_INFO[b].label}・{BELT_INFO[b].level}</span>
+                <span className="block p-3 text-xs leading-relaxed">{BELT_INFO[b].desc}<span className="block mt-2 font-bold text-shu">{all.filter((p) => p.belt === b).length}本</span></span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section aria-labelledby="kun" className="fuda p-6 md:p-8 bg-paper-kraft">
@@ -40,9 +60,9 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="cat" className="mt-16">
-        <h2 id="cat" className="font-display text-2xl mb-6">稽古場を選ぶ</h2>
+        <h2 id="cat" className="font-display text-2xl mb-6">テーマで選ぶ</h2>
         <ul className="grid grid-cols-2 md:grid-cols-3 gap-5">
-          {CATEGORIES.map((c) => (
+          {cats.map((c) => (
             <li key={c.slug}>
               <Link href={`/category/${c.slug}`} className="fuda block p-4 h-full">
                 <span className="stamp text-xl px-2 leading-none">{c.kanji}</span>
@@ -56,13 +76,9 @@ export default function Home() {
 
       <section aria-labelledby="new" className="mt-16">
         <h2 id="new" className="font-display text-2xl mb-6">新着の稽古</h2>
-        {latest.length === 0 ? (
-          <p className="text-sm text-sumi-soft">稽古の準備中です。もうしばらくお待ちください。</p>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-6">
-            {latest.map((p) => <PostCard key={p.slug} post={p} />)}
-          </div>
-        )}
+        <div className="grid md:grid-cols-2 gap-6">
+          {latest.map((p) => <PostCard key={p.slug} post={p} />)}
+        </div>
       </section>
 
       <section className="mt-16 text-center">

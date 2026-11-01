@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: `${SITE_NAME} | ${SITE_TAGLINE}`, template: `%s | ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
+  alternates: { types: { "application/rss+xml": "/feed.xml" } },
   openGraph: { type: "website", locale: "ja_JP", siteName: SITE_NAME, title: `${SITE_NAME} | ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, url: SITE_URL },
   twitter: { card: "summary", title: SITE_NAME, description: SITE_DESCRIPTION },
   verification: GSC_VERIFICATION ? { google: GSC_VERIFICATION } : undefined,
