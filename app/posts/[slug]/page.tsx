@@ -11,6 +11,7 @@ import { BELTS, getAllPosts, getPost } from "@/lib/posts";
 import { getCategoryByLabel } from "@/lib/categories";
 import { termsIn } from "@/lib/glossary";
 import { SITE_NAME, SITE_URL, SLOT_ARTICLE } from "@/lib/site";
+import { PROFILE } from "@/lib/profile";
 
 export function generateStaticParams() { return getAllPosts().map((p) => ({ slug: p.slug })); }
 
@@ -42,7 +43,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
     .sort((a, b) => b[1] - a[1] || (a[0].date < b[0].date ? 1 : -1)).slice(0, 4).map((x) => x[0]);
   const jsonLd = [
     { "@context": "https://schema.org", "@type": "Article", headline: meta.title, datePublished: meta.date, dateModified: meta.updated || meta.date,
-      author: { "@type": "Person", name: `${SITE_NAME} 道場主`, url: `${SITE_URL}/about`, description: "公務員を経てITコンサルタントに転身。データ分析・データ活用の支援が専門。" }, mainEntityOfPage: `${SITE_URL}/posts/${meta.slug}` },
+      author: { "@type": "Person", name: `${SITE_NAME} 道場主`, url: `${SITE_URL}/about`, description: "公務員を経てITコンサルタントに転身。データ分析・データ活用の支援が専門。", knowsAbout: PROFILE.usedMethods }, mainEntityOfPage: `${SITE_URL}/posts/${meta.slug}` },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "ホーム", item: SITE_URL },
       { "@type": "ListItem", position: 2, name: meta.category, item: cat ? `${SITE_URL}/category/${cat.slug}` : SITE_URL },

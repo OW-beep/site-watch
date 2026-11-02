@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SITE_NAME, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
+import { PROFILE } from "@/lib/profile";
 
 export const metadata = { title: "運営者情報", description: `${SITE_NAME}の運営方針と、道場主のプロフィールです。` };
 
@@ -16,6 +17,8 @@ export default function AboutPage() {
           <dt className="font-bold">サイト名</dt><dd>{SITE_NAME}</dd>
           <dt className="font-bold">URL</dt><dd>{SITE_URL}</dd>
           <dt className="font-bold">運営者</dt><dd>{SITE_NAME} 道場主(個人運営)</dd>
+          {PROFILE.years && (<><dt className="font-bold">経験年数</dt><dd>{PROFILE.years}</dd></>)}
+          {PROFILE.qualifications.length > 0 && (<><dt className="font-bold">保有資格</dt><dd>{PROFILE.qualifications.join("、")}</dd></>)}
           <dt className="font-bold">開設</dt><dd>2026年</dd>
           <dt className="font-bold">連絡先</dt><dd><a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a></dd>
         </dl>
@@ -45,9 +48,22 @@ export default function AboutPage() {
           <tbody>
             <tr className="border-b border-sumi/20"><td className="p-3">データ分析・データ活用の支援</td><td className="p-3">ロジックツリー、課題設計、フェルミ推定など、数字で考える稽古</td></tr>
             <tr className="border-b border-sumi/20"><td className="p-3">約50の企業・団体の業務支援</td><td className="p-3">データの定義があいまい、打ち手が先に決まる、といった現場の落とし穴の解説</td></tr>
+            <tr className="border-b border-sumi/20"><td className="p-3">{PROFILE.usedMethods.join("・")}を、仕事で使用</td><td className="p-3">「コンサル式」の稽古。守秘義務のため、案件の数字は載せず、身近な例題で練習できる形にしています。仕事での使い方は、<Link href="/category/genba" className="underline">現場メモ</Link>にまとめています</td></tr>
             <tr><td className="p-3">公務員から、ITコンサルタントへ</td><td className="p-3">専門用語を使わず、身近な例題で説明する書き方</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <section>
+        <h2 className={h2}>筆者が試してきた稽古</h2>
+        <p>このサイトで紹介する稽古のうち、{PROFILE.triedPractices.join("、")}は、筆者が実際に試してきたものです。やってみて分かったことは、稽古日誌にまとめています。</p>
+        <ul className="list-disc pl-5 mt-3 space-y-1">
+          <li><Link href="/posts/tegaki-nikki-3kagetsu" className="underline">手書き日記を約3か月続けて分かったこと</Link></li>
+          <li><Link href="/posts/smartphone-oku-2shukan" className="underline">スマホを置く生活を2週間ずつ試して分かったこと</Link></li>
+          <li><Link href="/posts/kami-techo-hantoshi" className="underline">紙の手帳を半年使って分かったこと</Link></li>
+          <li><Link href="/posts/dokusho-note-1gyo" className="underline">読書ノートを数か月試して分かったこと</Link></li>
+          <li><Link href="/posts/gaini-dasu-kangaeru" className="underline">考えることと、外に出すことは違う(全体のまとめ)</Link></li>
+        </ul>
       </section>
 
       <section>
