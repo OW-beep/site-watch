@@ -6,7 +6,8 @@ import BeltChip from "@/components/BeltChip";
 import Byline from "@/components/Byline";
 import PostCard from "@/components/PostCard";
 import PostFooterNav from "@/components/PostFooterNav";
-import { getAllPosts, getPost } from "@/lib/posts";
+import AuthorBox from "@/components/AuthorBox";
+import { BELTS, getAllPosts, getPost } from "@/lib/posts";
 import { getCategoryByLabel } from "@/lib/categories";
 import { termsIn } from "@/lib/glossary";
 import { SITE_NAME, SITE_URL, SLOT_ARTICLE } from "@/lib/site";
@@ -35,10 +36,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const i = list.findIndex((p) => p.slug === meta.slug);
   const next = i > 0 ? list[i - 1] : undefined;   // 新しい記事
   const prev = i >= 0 ? list[i + 1] : undefined;  // 古い記事
-  const related = list.filter((p) => p.category === meta.category && p.slug !== meta.slug).slice(0, 2);
+  const score = (p: (typeof list)[number]) =>
+    (p.track === meta.track ? 2 : 0) + (p.category === meta.category ? 1 : 0) + (Math.abs(BELTS.indexOf(p.belt) - BELTS.indexOf(meta.belt)) <= 1 ? 1 : 0);
+  const related = list.filter((p) => p.slug !== meta.slug).map((p) => [p, score(p)] as const)
+    .sort((a, b) => b[1] - a[1] || (a[0].date < b[0].date ? 1 : -1)).slice(0, 4).map((x) => x[0]);
   const jsonLd = [
     { "@context": "https://schema.org", "@type": "Article", headline: meta.title, datePublished: meta.date, dateModified: meta.updated || meta.date,
-      author: { "@type": "Person", name: `${SITE_NAME} 道場主` }, mainEntityOfPage: `${SITE_URL}/posts/${meta.slug}` },
+      author: { "@type": "Person", name: `${SITE_NAME} 道場主`, url: `${SITE_URL}/about`, description: "公務員を経てITコンサルタントに転身。データ分析・データ活用の支援が専門。" }, mainEntityOfPage: `${SITE_URL}/posts/${meta.slug}` },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "ホーム", item: SITE_URL },
       { "@type": "ListItem", position: 2, name: meta.category, item: cat ? `${SITE_URL}/category/${cat.slug}` : SITE_URL },
@@ -63,6 +67,12 @@ export default async function PostPage({ params }: { params: { slug: string } })
           <ul className="list-disc pl-5 space-y-1 text-sm">{meta.tldr.map((t) => <li key={t}>{t}</li>)}</ul>
         </section>
       )}
+      {meta.fieldNote && (
+        <section className="fuda p-5 mb-8 bg-white">
+          <p className="font-display text-lg mb-2">筆者の実践メモ</p>
+          <p className="text-sm leading-loose">{meta.fieldNote}</p>
+        </section>
+      )}
       {toc.length >= 3 && (
         <nav className="border-2 border-sumi bg-white p-5 mb-8 text-sm" aria-label="目次">
           <p className="font-bold mb-2">目次</p>
@@ -79,11 +89,19 @@ export default async function PostPage({ params }: { params: { slug: string } })
       )}
 
       <article className="prose prose-lg max-w-none prose-dojo" dangerouslySetInnerHTML={{ __html: body }} />
+      {meta.sources.length > 0 && (
+        <aside className="border-2 border-sumi bg-white p-5 mt-10 text-sm" aria-label="参考にした考え方・文献">
+          <p className="font-bold mb-2">参考にした考え方・文献</p>
+          <ul className="list-disc pl-5 space-y-1">{meta.sources.map((x) => <li key={x}>{x}</li>)}</ul>
+          <p className="text-xs text-sumi-soft mt-3">本サイトの例題・図解・回答例は、筆者が作成したものです。書籍の文章は引用していません。</p>
+        </aside>
+      )}
+      <AuthorBox />
       <AdUnit slot={SLOT_ARTICLE} />
 
       {related.length > 0 && (
         <section className="mt-12">
-          <h2 className="font-display text-xl mb-4">同じテーマの記事</h2>
+          <h2 className="font-display text-xl mb-4">あわせて読みたい稽古</h2>
           <div className="grid md:grid-cols-2 gap-5">{related.map((p) => <PostCard key={p.slug} post={p} />)}</div>
         </section>
       )}

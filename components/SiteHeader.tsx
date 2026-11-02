@@ -9,7 +9,7 @@ export default function SiteHeader() {
   const levels = BELTS.filter((b) => posts.some((p) => p.belt === b));
   const cats = CATEGORIES.filter((c) => posts.some((p) => p.category === c.label));
   return (
-    <header className="border-b-[3px] border-sumi bg-paper">
+    <header className="print:hidden border-b-[3px] border-sumi bg-paper">
       <div className="max-w-5xl mx-auto px-5 py-4 flex items-center gap-4 flex-wrap">
         <Link href="/" className="flex items-center gap-3">
           <span className="stamp text-2xl px-2 py-0.5 leading-none">脱</span>
@@ -18,6 +18,7 @@ export default function SiteHeader() {
         <nav aria-label="メイン" className="ml-auto flex gap-5 text-sm font-bold flex-wrap">
           <Link href="/start" className="hover:text-shu">はじめての方へ</Link>
           <Link href="/training" className="hover:text-shu">稽古メニュー</Link>
+          <Link href="/resources" className="hover:text-shu">シート・ツール</Link>
           <Link href="/posts" className="hover:text-shu">記事一覧</Link>
           <Link href="/about" className="hover:text-shu">道場主</Link>
         </nav>

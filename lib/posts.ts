@@ -12,6 +12,7 @@ export type PostMeta = {
   slug: string; title: string; category: string; date: string; updated?: string;
   excerpt: string; belt: Belt; noindex: boolean; tldr: string[];
   training: boolean; minutes?: number; track?: string;
+  sources: string[]; fieldNote?: string;
 };
 export type Toc = { id: string; text: string };
 
@@ -29,6 +30,8 @@ function meta(slug: string, d: Record<string, unknown>): PostMeta {
     training: Boolean(d.training),
     minutes: d.minutes ? Number(d.minutes) : undefined,
     track: d.track ? String(d.track) : undefined,
+    sources: Array.isArray(d.sources) ? d.sources.map(String) : [],
+    fieldNote: d.field_note ? String(d.field_note) : undefined,
   };
 }
 

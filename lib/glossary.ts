@@ -1,7 +1,7 @@
 export type Term = { term: string; aliases?: string[]; desc: string };
 
 export const GLOSSARY: Term[] = [
-  { term: "MECE(ミーシー)", aliases: ["MECE", "ミーシー"], desc: "「もれなく、ダブりなく」分けること。コンサルの世界で使われる言葉です。" },
+  { term: "MECE(ミーシー)", aliases: ["MECE", "ミーシー", "ミッシー"], desc: "「もれなく、ダブりなく」分けること。「ミッシー」とも読む、コンサルの世界で使われる言葉です。" },
   { term: "構造化", desc: "ものごとを、決まりに沿って分けて並べ直し、整理すること。" },
   { term: "軸", desc: "分けるときの「ものさし」。年代・場所・時間など、何で分けるかのこと。" },
   { term: "フェルミ推定", desc: "調べなくても見当のつく数字を掛け合わせて、見当のつかない数をおおまかに見積もる方法。" },

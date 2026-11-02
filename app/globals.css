@@ -39,3 +39,9 @@ body {
   .prose-dojo table { display: block; overflow-x: auto; }
 }
 @media (prefers-reduced-motion: reduce) { .fuda { transition: none; } }
+
+@media print {
+  body { background: none !important; }
+  .sheet { break-after: page; box-shadow: none !important; margin: 0 !important; }
+  main { padding: 0 !important; }
+}

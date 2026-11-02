@@ -15,6 +15,7 @@ for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".md"))) {
   if (/^noindex:\s*true/m.test(text)) continue;
   const imgs = [...text.matchAll(/!\[([^\]]*)\]\((\/images\/[^)]+)\)/g)];
   if (/^##\s.*(練習問題|課題)/m.test(text) && !/<details>/.test(text)) errors.push(`${f}: 練習問題に回答例(<details>)がありません`);
+  if (!/^## よくある質問/m.test(text)) errors.push(`${f}: 「## よくある質問」がありません`);
   if (imgs.length === 0) errors.push(`${f}: 図解(![説明](/images/xxx.svg))がありません`);
   for (const [, alt, src] of imgs) {
     if (!alt.trim()) errors.push(`${f}: 画像の説明(alt)が空です: ${src}`);

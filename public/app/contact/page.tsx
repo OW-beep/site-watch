@@ -1,0 +1,13 @@
+import ContactForm from "@/components/ContactForm";
+
+export const metadata = { title: "お問い合わせ", description: "脱デジ道場へのご質問、記事内容のご指摘、取材・ご連絡はこちらからお送りください。" };
+
+export default function ContactPage() {
+  return (
+    <main className="max-w-2xl mx-auto px-5 py-12">
+      <h1 className="font-display text-4xl mb-4"><span className="marker">お問い合わせ</span></h1>
+      <p className="text-sm leading-loose mb-8">記事内容へのご指摘やご質問は、こちらからお送りください。</p>
+      <ContactForm />
+    </main>
+  );
+}

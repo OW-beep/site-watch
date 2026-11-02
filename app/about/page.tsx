@@ -39,6 +39,18 @@ export default function AboutPage() {
       </section>
 
       <section>
+        <h2 className={h2}>経歴と、このサイトの関係</h2>
+        <table className="w-full border-2 border-sumi bg-white text-left">
+          <thead><tr className="bg-paper-kraft"><th className="p-3 border-b-2 border-sumi">経歴・専門</th><th className="p-3 border-b-2 border-sumi">このサイトの内容</th></tr></thead>
+          <tbody>
+            <tr className="border-b border-sumi/20"><td className="p-3">データ分析・データ活用の支援</td><td className="p-3">ロジックツリー、課題設計、フェルミ推定など、数字で考える稽古</td></tr>
+            <tr className="border-b border-sumi/20"><td className="p-3">約50の企業・団体の業務支援</td><td className="p-3">データの定義があいまい、打ち手が先に決まる、といった現場の落とし穴の解説</td></tr>
+            <tr><td className="p-3">公務員から、ITコンサルタントへ</td><td className="p-3">専門用語を使わず、身近な例題で説明する書き方</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
         <h2 className={h2}>記事の方針</h2>
         <ul className="list-disc pl-5 space-y-1.5">
           <li>実際にやってみた体験を中心に書きます。効果を断定せず、「私の場合」として記録します</li>

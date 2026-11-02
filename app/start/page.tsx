@@ -47,6 +47,26 @@ export default function StartPage() {
         </ol>
       </section>
       <section>
+        <h2 className={h2}>おすすめの順番(ロードマップ)</h2>
+        <ol className="list-decimal pl-5 space-y-1.5">
+          {[["sakini-yoso-1pun", "白帯"], ["mittsu-no-toi", "白帯"], ["kakidashi-memo-a4", "白帯"], ["kozoka-wakeru-nyumon", "黄帯"], ["fermi-nyumon-gohan", "黄帯"], ["logic-tree-uriage", "緑帯"], ["kasetsu-shiko-pyramid", "青帯"], ["ai-shiki-7step", "青帯"], ["kadai-sekkei-helpdesk", "黒帯"]].map(([slug, b]) => {
+            const p = all.find((x) => x.slug === slug);
+            return p ? <li key={slug}><span className="text-xs font-bold text-shu mr-2">{b}</span><Link href={`/posts/${slug}`} className="underline">{p.title}</Link></li> : null;
+          })}
+        </ol>
+      </section>
+      <section>
+        <h2 className={h2}>よくある質問</h2>
+        <dl className="space-y-4">
+          {[
+            ["紙とペンがないとできませんか?", "基本は紙とペンですが、メモ用紙の裏でも構いません。印刷して使える稽古シートも用意しています。"],
+            ["毎日やる必要がありますか?", "ありません。1日1回、5分でも十分です。続かない日があっても、また戻れば大丈夫です。"],
+            ["AIを使ってはいけないのですか?", "いいえ。AIは便利な道具です。このサイトは、考える部分を自分の手に残す使い分けを練習する場です。"],
+            ["仕事で使えますか?", "使えます。黄帯以降は、仕事の現場で使う考え方(構造化、フェルミ推定、仮説思考)を、身近な例題で練習します。"],
+          ].map(([q, a]) => <div key={q}><dt className="font-bold">Q. {q}</dt><dd>A. {a}</dd></div>)}
+        </dl>
+      </section>
+      <section>
         <h2 className={h2}>ご注意</h2>
         <p>ここで紹介するのは考え方の練習であり、医療・健康を目的としたものではありません。例題の数字は、練習用の仮のものです。くわしくは<Link href="/editorial-policy" className="underline">編集方針</Link>をご覧ください。</p>
       </section>
