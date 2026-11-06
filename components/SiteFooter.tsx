@@ -12,6 +12,7 @@ export default function SiteFooter() {
           <li><Link href="/privacy" className="underline">プライバシーポリシー</Link></li>
           <li><Link href="/contact" className="underline">お問い合わせ</Link></li>
           <li><Link href="/editorial-policy" className="underline">編集方針</Link></li>
+          <li><Link href="/problems" className="underline">悩みから探す</Link></li>
           <li><Link href="/start" className="underline">はじめての方へ</Link></li>
           <li><Link href="/posts" className="underline">記事一覧</Link></li>
           <li><Link href="/resources" className="underline">シート・ツール</Link></li>

@@ -48,7 +48,9 @@ export async function getPost(slug: string) {
   if (!fs.existsSync(file)) return null;
   const { data, content } = matter(fs.readFileSync(file, "utf8"));
   const toc: Toc[] = [];
-  const processed = await remark().use(gfm).use(html, { sanitize: false }).process(content);
+  // 「**」の直後に日本語が続くと太字にならない仕様への対策:先に<strong>へ変換する
+  const normalized = content.replace(/\*\*([^*\n]+?)\*\*/g, "<strong>$1</strong>");
+  const processed = await remark().use(gfm).use(html, { sanitize: false }).process(normalized);
   const body = String(processed).replace(/<h2>(.*?)<\/h2>/g, (_m, inner: string) => {
     const id = `s${toc.length + 1}`;
     toc.push({ id, text: inner.replace(/<[^>]+>/g, "") });
@@ -62,5 +64,7 @@ export async function getPost(slug: string) {
       return w && h ? `<img src="${src}" alt="${alt}" width="${w}" height="${h}" loading="lazy" decoding="async">` : m;
     } catch { return m; }
   });
-  return { meta: meta(slug, data), body: sized, toc };
+  const withFig = sized.replace(/<p>(<img [^>]*alt="([^"]*)"[^>]*>)<\/p>/g, (_m, img: string, alt: string) =>
+    `<figure class="fig"><p class="fig-hint">← 図は、横にスクロールできます</p><div class="fig-scroll">${img}</div><figcaption>${alt}</figcaption></figure>`);
+  return { meta: meta(slug, data), body: withFig, toc };
 }

@@ -13,6 +13,7 @@ export default function AuthorBox() {
       <p className="text-sm leading-loose mt-1">
         仕事では、{PROFILE.usedMethods.join("・")}を使ってきました。{PROFILE.years && `経験年数:${PROFILE.years}。`}{PROFILE.qualifications.length > 0 && `保有資格:${PROFILE.qualifications.join("、")}。`}
       </p>
+      <p className="text-xs leading-relaxed mt-3 text-sumi-soft">下書きの作成にAIを利用し、筆者が内容を確認・編集して掲載しています。</p>
       <p className="text-xs mt-3 flex gap-4 flex-wrap">
         <Link href="/about" className="underline">運営者情報</Link>
         <Link href="/editorial-policy" className="underline">編集方針</Link>

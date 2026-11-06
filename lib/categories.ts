@@ -1,6 +1,7 @@
 export type Category = { slug: string; label: string; kanji: string; desc: string };
 export const CATEGORIES: Category[] = [
   { slug: "nyumon", label: "入門", kanji: "入", desc: "脱デジを始める人のための基本の「型」。" },
+  { slug: "taiso", label: "頭の体操", kanji: "操", desc: "紙もペンもいらない、頭の中だけでできる思考トレーニング。" },
   { slug: "keiko", label: "稽古日誌", kanji: "稽", desc: "手書き日記30日、スマホ断ち1週間。やってみた記録。" },
   { slug: "jiatama", label: "地頭稽古", kanji: "頭", desc: "書き出し、要約、問いの立て方。考える力の基礎トレ。" },
   { slug: "ai", label: "AI対策道場", kanji: "AI", desc: "AIに任せること、自分で考えること。その線引き。" },

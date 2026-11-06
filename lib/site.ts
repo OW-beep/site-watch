@@ -1,7 +1,7 @@
 export const SITE_NAME = "脱デジ道場";
-export const SITE_TAGLINE = "手書きで鍛える、AI時代の考える力";
+export const SITE_TAGLINE = "デジタルに負けない頭をつくる、考え方の稽古場";
 export const SITE_DESCRIPTION =
-  "スマホを置いて、紙とペンで頭を使う稽古場。手書き・読書・AIとの付き合い方を、実際にやってみた記録と一緒に紹介します。";
+  "検索もAIも、答えはくれる。でも、問うのも、選ぶのも、確かめるのも自分の頭。紙もペンもいらない頭の体操から、仕事にも効く考え方まで、身近な例題で練習できる稽古場です。";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://datsu-digi.vercel.app";
 export const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-4630812027939211";
 export const SLOT_ARTICLE = process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE || "";

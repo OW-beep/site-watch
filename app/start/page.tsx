@@ -14,7 +14,7 @@ export default function StartPage() {
       <h1 className="font-display text-4xl"><span className="marker">はじめての方へ</span></h1>
       <section>
         <h2 className={h2}>このサイトでできること</h2>
-        <p>{SITE_NAME}は、スマホやAIが当たり前の時代に、紙とペンで「自分の頭を使う」習慣を取り戻すための稽古場です。身近な例題を使って、考え方の型を1つずつ練習できます。</p>
+        <p>{SITE_NAME}は、検索やAIが身近になった今こそ、自分の頭で考える力を保つための稽古場です。紙もペンもいらない頭の体操から、仕事にも効く考え方まで、身近な例題で1つずつ練習できます。</p>
       </section>
       <section>
         <h2 className={h2}>1. レベルを選ぶ</h2>
@@ -48,6 +48,7 @@ export default function StartPage() {
       </section>
       <section>
         <h2 className={h2}>おすすめの順番(ロードマップ)</h2>
+        <p className="mb-3">毎日5分で続けたい方は、<Link href="/posts/4shukan-plan" className="underline font-bold">4週間プラン</Link>が便利です。</p>
         <ol className="list-decimal pl-5 space-y-1.5">
           {[["sakini-yoso-1pun", "白帯"], ["mittsu-no-toi", "白帯"], ["kakidashi-memo-a4", "白帯"], ["kozoka-wakeru-nyumon", "黄帯"], ["fermi-nyumon-gohan", "黄帯"], ["logic-tree-uriage", "緑帯"], ["kasetsu-shiko-pyramid", "青帯"], ["ai-shiki-7step", "青帯"], ["kadai-sekkei-helpdesk", "黒帯"]].map(([slug, b]) => {
             const p = all.find((x) => x.slug === slug);

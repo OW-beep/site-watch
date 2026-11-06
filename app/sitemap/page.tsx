@@ -14,7 +14,7 @@ export default function SitemapPage() {
       <section>
         <h2 className={h2}>サイトについて</h2>
         <ul className="grid sm:grid-cols-2 gap-1.5 underline">
-          {[["/", "トップページ"], ["/start", "はじめての方へ"], ["/training", "稽古メニュー"], ["/posts", "記事一覧"], ["/about", "運営者情報"], ["/editorial-policy", "編集方針"], ["/resources", "シート・ツール"], ["/glossary", "用語集"], ["/privacy", "プライバシーポリシー"], ["/contact", "お問い合わせ"]].map(([h, t]) => <li key={h}><Link href={h}>{t}</Link></li>)}
+          {[["/", "トップページ"], ["/start", "はじめての方へ"], ["/training", "稽古メニュー"], ["/posts", "記事一覧"], ["/about", "運営者情報"], ["/editorial-policy", "編集方針"], ["/problems", "悩みから探す"], ["/resources", "シート・ツール"], ["/glossary", "用語集"], ["/privacy", "プライバシーポリシー"], ["/contact", "お問い合わせ"]].map(([h, t]) => <li key={h}><Link href={h}>{t}</Link></li>)}
         </ul>
       </section>
       <section>

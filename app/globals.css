@@ -36,6 +36,12 @@ body {
   .prose-dojo summary::-webkit-details-marker { display: none; }
   .prose-dojo summary::before { content: "▶ "; color: #d8352a; }
   .prose-dojo details[open] > summary::before { content: "▼ "; }
+  .prose-dojo figure.fig { margin: 2em 0; border: 2.5px solid #1a1a1a; box-shadow: 5px 5px 0 #1a1a1a; background: #fbf9f3; }
+  .fig-scroll { overflow-x: auto; }
+  .prose-dojo .fig-scroll img { display: block; min-width: 680px; width: 100%; height: auto; margin: 0; border: 0; box-shadow: none; }
+  .prose-dojo figcaption { font-size: .8rem; line-height: 1.6; padding: .6rem .9rem; border-top: 2px solid rgba(26,26,26,.15); color: #5b5b57; margin: 0; }
+  .fig-hint { display: none; font-size: 11px; padding: .3rem .9rem 0; margin: 0 !important; color: #5b5b57; }
+  @media (max-width: 700px) { .fig-hint { display: block; } }
   .prose-dojo table { display: block; overflow-x: auto; }
 }
 @media (prefers-reduced-motion: reduce) { .fuda { transition: none; } }

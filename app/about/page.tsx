@@ -48,7 +48,7 @@ export default function AboutPage() {
           <tbody>
             <tr className="border-b border-sumi/20"><td className="p-3">データ分析・データ活用の支援</td><td className="p-3">ロジックツリー、課題設計、フェルミ推定など、数字で考える稽古</td></tr>
             <tr className="border-b border-sumi/20"><td className="p-3">約50の企業・団体の業務支援</td><td className="p-3">データの定義があいまい、打ち手が先に決まる、といった現場の落とし穴の解説</td></tr>
-            <tr className="border-b border-sumi/20"><td className="p-3">{PROFILE.usedMethods.join("・")}を、仕事で使用</td><td className="p-3">「コンサル式」の稽古。守秘義務のため、案件の数字は載せず、身近な例題で練習できる形にしています。仕事での使い方は、<Link href="/category/genba" className="underline">現場メモ</Link>にまとめています</td></tr>
+            <tr className="border-b border-sumi/20"><td className="p-3">{PROFILE.usedMethods.join("・")}を、仕事で使用</td><td className="p-3">「仕事に効く考え方」の稽古。守秘義務のため、案件の数字は載せず、身近な例題で練習できる形にしています。仕事での使い方は、<Link href="/category/genba" className="underline">現場メモ</Link>にまとめています</td></tr>
             <tr><td className="p-3">公務員から、ITコンサルタントへ</td><td className="p-3">専門用語を使わず、身近な例題で説明する書き方</td></tr>
           </tbody>
         </table>

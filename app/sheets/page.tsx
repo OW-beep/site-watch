@@ -3,7 +3,7 @@ import PrintButton from "@/components/PrintButton";
 
 export const metadata = {
   title: "印刷して使う稽古シート",
-  description: "書き出しメモ、AI式7ステップ、判断軸×重み表、読書ノート、30日日記チェック表。A4で印刷して使える無料シートです。",
+  description: "書き出しメモ、答え方の7ステップ、判断軸×重み表、読書ノート、30日日記チェック表。A4で印刷して使える無料シートです。",
 };
 
 const Lines = ({ n, h = "h-9" }: { n: number; h?: string }) => (
@@ -39,7 +39,7 @@ export default function SheetsPage() {
         <Field label="明日やること(1つだけ)" lines={1} />
       </Sheet>
 
-      <Sheet title="AI式7ステップシート" how="難しい依頼を、7つの欄に順番に書いて整理します。">
+      <Sheet title="答え方の7ステップシート" how="難しい依頼を、7つの欄に順番に書いて整理します。">
         {["1 依頼を、自分の言葉で言い直す", "2 足りない情報(聞く/仮定する)", "3 小さな問い(3つ前後)", "4 置いた仮定", "5 それぞれの答え", "6 検算の結果(桁・矛盾)", "7 結論 → 根拠 → 次の一歩"].map((l) => <Field key={l} label={l} lines={2} />)}
       </Sheet>
 

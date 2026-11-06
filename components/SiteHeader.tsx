@@ -16,6 +16,7 @@ export default function SiteHeader() {
           <span className="font-display text-2xl tracking-wide">{SITE_NAME}</span>
         </Link>
         <nav aria-label="メイン" className="ml-auto flex gap-5 text-sm font-bold flex-wrap">
+          <Link href="/problems" className="hover:text-shu">悩みから探す</Link>
           <Link href="/start" className="hover:text-shu">はじめての方へ</Link>
           <Link href="/training" className="hover:text-shu">稽古メニュー</Link>
           <Link href="/resources" className="hover:text-shu">シート・ツール</Link>
