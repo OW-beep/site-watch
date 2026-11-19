@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import AdUnit from "@/components/AdUnit";
 import BeltChip from "@/components/BeltChip";
+import AgeChip from "@/components/AgeChip";
 import Byline from "@/components/Byline";
 import PostCard from "@/components/PostCard";
 import PostFooterNav from "@/components/PostFooterNav";
@@ -23,7 +24,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     title: meta.title, description: meta.excerpt,
     alternates: { canonical: `${SITE_URL}/posts/${meta.slug}` },
     robots: meta.noindex ? { index: false, follow: false } : undefined,
-    openGraph: { type: "article", title: meta.title, description: meta.excerpt, publishedTime: meta.date },
+    openGraph: { type: "article", title: meta.title, description: meta.excerpt, publishedTime: meta.date, images: [{ url: "/og.png", width: 1200, height: 630, alt: meta.title }] },
+    twitter: { card: "summary_large_image", title: meta.title, description: meta.excerpt, images: ["/og.png"] },
   };
 }
 
@@ -57,6 +59,7 @@ export default async function PostPage({ params }: { params: { slug: string } })
       </nav>
       <div className="flex items-center gap-3 mb-3 flex-wrap">
         <Link href={`/level/${meta.belt}`}><BeltChip belt={meta.belt} /></Link>
+        {meta.age && <Link href={`/age/${meta.age}`}><AgeChip age={meta.age} /></Link>}
         {meta.training && meta.minutes && <span className="text-xs font-bold text-shu">約{meta.minutes}分の稽古</span>}
       </div>
       <h1 className="font-hand font-semibold text-3xl md:text-4xl leading-snug mb-5">{meta.title}</h1>

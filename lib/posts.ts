@@ -7,12 +7,14 @@ import html from "remark-html";
 
 const dir = path.join(process.cwd(), "content/posts");
 export const BELTS = ["white", "yellow", "green", "blue", "black"] as const;
+export const AGES = ["elem", "junior"] as const;
+export type Age = (typeof AGES)[number];
 export type Belt = (typeof BELTS)[number];
 export type PostMeta = {
   slug: string; title: string; category: string; date: string; updated?: string;
   excerpt: string; belt: Belt; noindex: boolean; tldr: string[];
   training: boolean; minutes?: number; track?: string;
-  sources: string[]; fieldNote?: string;
+  sources: string[]; fieldNote?: string; age?: Age;
 };
 export type Toc = { id: string; text: string };
 
@@ -32,6 +34,7 @@ function meta(slug: string, d: Record<string, unknown>): PostMeta {
     track: d.track ? String(d.track) : undefined,
     sources: Array.isArray(d.sources) ? d.sources.map(String) : [],
     fieldNote: d.field_note ? String(d.field_note) : undefined,
+    age: ((AGES as readonly string[]).includes(String(d.age)) ? d.age : undefined) as Age | undefined,
   };
 }
 

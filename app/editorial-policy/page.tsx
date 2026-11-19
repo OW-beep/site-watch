@@ -7,6 +7,15 @@ export default function EditorialPolicyPage() {
     <main className="max-w-3xl mx-auto px-5 py-12 text-sm leading-loose space-y-9">
       <h1 className="font-display text-4xl"><span className="marker">編集方針</span></h1>
       <section>
+        <h2 className={h2}>大切にしていること</h2>
+        <ul className="list-disc pl-5 space-y-1.5">
+          <li><strong>読者の困りごとを解決すること</strong>を、第一に考えます。記事は「悩み」から逆算して作り、読み終わったときに次の一手が見える形にします</li>
+          <li><strong>前提は簡単に</strong>します。道具は紙とペンまで、時間は5分から。専門用語は本文では日常の言葉に置き換え、名前を知りたい人のために補足と用語集を用意します</li>
+          <li><strong>くじけにくい作り</strong>にします。「毎日」「全部」を求めず、飛ばしてよい・1つだけでよい、という続け方を記事の中で明示します</li>
+          <li><strong>独自性</strong>として、全記事に自作の図解を入れ、筆者の実践メモと、考える手順そのものを見せる読み物を大切にします</li>
+        </ul>
+      </section>
+      <section>
         <h2 className={h2}>記事の作り方</h2>
         <p>記事は、運営者が内容を確認し、編集したうえで公開しています。考え方の型は、一般に知られている方法をもとに、身近な例題で練習できる形にまとめています。</p>
       </section>
@@ -38,7 +47,7 @@ export default function EditorialPolicyPage() {
       </section>
       <section>
         <h2 className={h2}>広告について</h2>
-        <p>当サイトはGoogle AdSenseなどの広告を利用しています。広告の有無や内容が、記事の評価や内容に影響することはありません。</p>
+        <p>当サイトはGoogle AdSenseなどの広告を利用する場合があります。広告の有無や内容が、記事の評価や内容に影響することはありません。</p>
       </section>
       <section>
         <h2 className={h2}>誤りを見つけた場合・更新について</h2>

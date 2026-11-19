@@ -86,7 +86,7 @@ export default function AboutPage() {
 
       <section>
         <h2 className={h2}>広告について</h2>
-        <p>当サイトは、Google AdSenseなどの第三者配信の広告サービスを利用しています。詳しくは<Link href="/privacy" className="underline">プライバシーポリシー</Link>をご覧ください。</p>
+        <p>当サイトは、Google AdSenseなどの第三者配信の広告サービスを利用する場合があります。詳しくは<Link href="/privacy" className="underline">プライバシーポリシー</Link>をご覧ください。</p>
       </section>
 
       <p>連絡先:<a href={`mailto:${CONTACT_EMAIL}`} className="underline">{CONTACT_EMAIL}</a>(<Link href="/contact" className="underline font-bold">お問い合わせページ →</Link>)</p>

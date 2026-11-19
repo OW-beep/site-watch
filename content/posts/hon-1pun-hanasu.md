@@ -2,8 +2,10 @@
 title: "読んだ本を、人に1分で話してみる:理解できているかが分かる体操"
 category: "読書修行"
 date: "2026-11-02"
+updated: "2026-11-20"
 excerpt: "本を読んだら、人に1分で話してみましょう。うまく話せない部分が、理解できていない部分です。型と練習問題つきで紹介します。"
 belt: "white"
+age: "junior"
 training: true
 minutes: 5
 track: "頭の体操"

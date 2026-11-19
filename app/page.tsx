@@ -2,7 +2,8 @@ import Link from "next/link";
 import PostCard from "@/components/PostCard";
 import { getAllPosts } from "@/lib/posts";
 import { CATEGORIES } from "@/lib/categories";
-import { BELTS } from "@/lib/posts";
+import { BELTS, AGES } from "@/lib/posts";
+import { AGE_INFO } from "@/components/AgeChip";
 import { PROBLEMS } from "@/lib/problems";
 import { BELT_INFO } from "@/components/BeltChip";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
@@ -63,6 +64,22 @@ export default function Home() {
               <Link href={`/level/${b}`} className="fuda block h-full">
                 <span className={`block border-b-2 border-sumi px-3 py-1.5 text-xs font-bold ${BELT_INFO[b].cls}`}>{BELT_INFO[b].label}・{BELT_INFO[b].level}</span>
                 <span className="block p-3 text-xs leading-relaxed">{BELT_INFO[b].desc}<span className="block mt-2 font-bold text-shu">{all.filter((p) => p.belt === b).length}本</span></span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="age" className="mb-14">
+        <h2 id="age" className="font-display text-2xl mb-2">年齢から探す</h2>
+        <p className="text-sm text-sumi-soft mb-5">帯(レベル)とは別に、子どもと一緒に楽しめる稽古には、目安の年齢を付けています。</p>
+        <ul className="grid md:grid-cols-2 gap-4">
+          {AGES.filter((a) => all.some((p) => p.age === a)).map((a) => (
+            <li key={a}>
+              <Link href={`/age/${a}`} className="fuda block p-4 h-full">
+                <span className="font-hand font-semibold text-lg block">{AGE_INFO[a].label}できる稽古</span>
+                <span className="text-xs text-sumi-soft leading-relaxed block mt-1">{AGE_INFO[a].desc}</span>
+                <span className="block mt-2 text-sm font-bold text-shu">{all.filter((p) => p.age === a).length}本</span>
               </Link>
             </li>
           ))}

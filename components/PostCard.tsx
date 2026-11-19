@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
 import { getCategoryByLabel } from "@/lib/categories";
 import BeltChip from "./BeltChip";
+import AgeChip from "./AgeChip";
 
 export default function PostCard({ post }: { post: PostMeta }) {
   const cat = getCategoryByLabel(post.category);
@@ -9,6 +10,7 @@ export default function PostCard({ post }: { post: PostMeta }) {
     <Link href={`/posts/${post.slug}`} className="fuda block p-5 h-full">
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         <BeltChip belt={post.belt} />
+        {post.age && <AgeChip age={post.age} />}
         <span className="text-xs font-bold text-shu">{cat ? cat.label : post.category}</span>
         {post.training && post.minutes ? <span className="text-xs text-sumi-soft ml-auto">約{post.minutes}分</span> : <time className="text-xs text-sumi-soft ml-auto">{post.date}</time>}
       </div>

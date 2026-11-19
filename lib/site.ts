@@ -7,5 +7,6 @@ export const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-
 export const SLOT_ARTICLE = process.env.NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE || "";
 export const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID || "";
 export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "yorozuyait.info@gmail.com";
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 export const GSC_VERIFICATION =
   process.env.NEXT_PUBLIC_GSC_VERIFICATION || "KYZp6leIoJkmXQipodIUtUhXTopgEfgqFiQ7eJZuRZA";

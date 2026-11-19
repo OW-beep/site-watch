@@ -2,8 +2,10 @@
 title: "暗算がラクになる3つの工夫:切りのいい数に寄せて、やさしく計算する"
 category: "頭の体操"
 date: "2026-11-02"
+updated: "2026-11-20"
 excerpt: "暗算が苦手でも大丈夫。むずかしい数を、やさしい数に変えてから計算する3つの工夫を、練習問題5問と回答例つきで紹介します。"
 belt: "white"
+age: "elem"
 training: true
 minutes: 5
 track: "頭の体操"

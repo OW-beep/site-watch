@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       <h1 className="font-display text-4xl"><span className="marker">プライバシーポリシー</span></h1>
       <section>
         <h2 className={h2}>広告の配信について</h2>
-        <p>当サイトは、第三者配信の広告サービス「Google AdSense」を利用しています。Google AdSenseなどの第三者配信事業者は、ユーザーの興味に応じた広告を表示するためにCookieを使用することがあります。Cookieを使用することで、当サイトや他サイトへの過去のアクセス情報に基づいて広告が配信されます。</p>
+        <p>当サイトは、第三者配信の広告サービス「Google AdSense」を利用する場合があります。Google AdSenseなどの第三者配信事業者は、ユーザーの興味に応じた広告を表示するためにCookieを使用することがあります。Cookieを使用することで、当サイトや他サイトへの過去のアクセス情報に基づいて広告が配信されます。</p>
         <p className="mt-3">Googleが広告配信に使用するCookieの無効化やパーソナライズ広告の制限は、<a className="underline" href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer">Google広告に関するポリシー</a>および<a className="underline" href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">広告設定</a>のページから行えます。</p>
       </section>
       <section>

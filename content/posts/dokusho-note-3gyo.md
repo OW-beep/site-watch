@@ -2,9 +2,10 @@
 title: "読書ノートの作り方:1冊を「3行と1つの問い」で残す"
 category: "読書修行"
 date: "2026-10-09"
-updated: "2026-11-02"
+updated: "2026-11-20"
 excerpt: "読んだのに内容を思い出せない。そんなときは、読み終わって5分以内に、3行と1つの問いだけをノートに書いてみましょう。"
 belt: "yellow"
+age: "junior"
 training: true
 minutes: 10
 track: "基礎"
