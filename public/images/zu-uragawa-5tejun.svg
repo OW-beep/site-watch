@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="430" viewBox="0 0 880 430">
+  <rect width="880" height="430" fill="#f7f2e7"/>
+  <rect x="14" y="14" width="852" height="402" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="440" y="58" text-anchor="middle" font-size="24" font-weight="bold" fill="#1a1a1a">頼まれたことを、裏で回す5つの手順</text>
+  <g font-size="17" fill="#1a1a1a">
+    <rect x="40" y="100" width="152" height="150" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="116" cy="128" r="16" fill="#e63946"/>
+    <text x="116" y="135" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">1</text>
+    <text x="116" y="172" text-anchor="middle" font-weight="bold">目的を</text>
+    <text x="116" y="196" text-anchor="middle" font-weight="bold">言い直す</text>
+    <text x="116" y="228" text-anchor="middle" font-size="13" fill="#5b5b57">本当は</text>
+    <text x="116" y="246" text-anchor="middle" font-size="13" fill="#5b5b57">何のため?</text>
+    <rect x="204" y="100" width="152" height="150" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="280" cy="128" r="16" fill="#e63946"/>
+    <text x="280" y="135" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">2</text>
+    <text x="280" y="172" text-anchor="middle" font-weight="bold">知らないを</text>
+    <text x="280" y="196" text-anchor="middle" font-weight="bold">分ける</text>
+    <text x="280" y="228" text-anchor="middle" font-size="13" fill="#5b5b57">分かること/</text>
+    <text x="280" y="246" text-anchor="middle" font-size="13" fill="#5b5b57">分からないこと</text>
+    <rect x="368" y="100" width="152" height="150" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="444" cy="128" r="16" fill="#e63946"/>
+    <text x="444" y="135" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">3</text>
+    <text x="444" y="172" text-anchor="middle" font-weight="bold">小さく</text>
+    <text x="444" y="196" text-anchor="middle" font-weight="bold">分ける</text>
+    <text x="444" y="228" text-anchor="middle" font-size="13" fill="#5b5b57">30分で終わる</text>
+    <text x="444" y="246" text-anchor="middle" font-size="13" fill="#5b5b57">大きさに</text>
+    <rect x="532" y="100" width="152" height="150" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="608" cy="128" r="16" fill="#e63946"/>
+    <text x="608" y="135" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">4</text>
+    <text x="608" y="172" text-anchor="middle" font-weight="bold">先に</text>
+    <text x="608" y="196" text-anchor="middle" font-weight="bold">線を引く</text>
+    <text x="608" y="228" text-anchor="middle" font-size="13" fill="#5b5b57">やらないことと</text>
+    <text x="608" y="246" text-anchor="middle" font-size="13" fill="#5b5b57">止まる場所</text>
+    <rect x="696" y="100" width="152" height="150" fill="#fff" stroke="#1a1a1a" stroke-width="2.5"/>
+    <circle cx="772" cy="128" r="16" fill="#e63946"/>
+    <text x="772" y="135" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">5</text>
+    <text x="772" y="172" text-anchor="middle" font-weight="bold">最後に</text>
+    <text x="772" y="196" text-anchor="middle" font-weight="bold">確かめる</text>
+    <text x="772" y="228" text-anchor="middle" font-size="13" fill="#5b5b57">頼まれた形に</text>
+    <text x="772" y="246" text-anchor="middle" font-size="13" fill="#5b5b57">なっているか</text>
+  </g>
+  <g stroke="#1a1a1a" stroke-width="2.5">
+    <path d="M192 175 L204 175" marker-end="url(#ah)"/>
+    <path d="M356 175 L368 175" marker-end="url(#ah)"/>
+    <path d="M520 175 L532 175" marker-end="url(#ah)"/>
+    <path d="M684 175 L696 175" marker-end="url(#ah)"/>
+  </g>
+  <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1a1a1a"/></marker></defs>
+  <rect x="140" y="290" width="600" height="86" fill="#fdf6d8" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="440" y="326" text-anchor="middle" font-size="17" fill="#1a1a1a">才能ではなく、順番の問題です。</text>
+  <text x="440" y="354" text-anchor="middle" font-size="17" fill="#1a1a1a">小さな頼まれごとで、この順番を回す練習ができます。</text>
+</svg>
