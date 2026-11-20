@@ -10,3 +10,8 @@ export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "yorozuyai
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 export const GSC_VERIFICATION =
   process.env.NEXT_PUBLIC_GSC_VERIFICATION || "KYZp6leIoJkmXQipodIUtUhXTopgEfgqFiQ7eJZuRZA";
+// 同じ運営者の姉妹サイト(紹介リンク用。アフィリエイトではありません)
+export const SISTER_SITES = [
+  { name: "よろずやIT", url: "https://yorozuya-it.vercel.app/", desc: "ITの困りごと全般を扱う姉妹サイト" },
+  { name: "BookHome(ブックホーム)", url: "https://www.bookhome.jp", desc: "家族の本棚と読書記録のアプリ" },
+] as const;

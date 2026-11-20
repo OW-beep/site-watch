@@ -39,8 +39,13 @@ export default async function PostPage({ params }: { params: { slug: string } })
   const i = list.findIndex((p) => p.slug === meta.slug);
   const next = i > 0 ? list[i - 1] : undefined;   // 新しい記事
   const prev = i >= 0 ? list[i + 1] : undefined;  // 古い記事
-  const score = (p: (typeof list)[number]) =>
-    (p.track === meta.track ? 2 : 0) + (p.category === meta.category ? 1 : 0) + (Math.abs(BELTS.indexOf(p.belt) - BELTS.indexOf(meta.belt)) <= 1 ? 1 : 0);
+  const score = (p: (typeof list)[number]) => {
+    const beltDiff = Math.abs(BELTS.indexOf(p.belt) - BELTS.indexOf(meta.belt));
+    return (p.belt === meta.belt ? 3 : beltDiff <= 1 ? 1 : 0)   // 同じ帯を最優先、隣の帯も少し
+      + (meta.age && p.age === meta.age ? 2 : 0)                 // 同じ年齢目安
+      + (p.category === meta.category ? 2 : 0)                   // 同じカテゴリ
+      + (p.track && p.track === meta.track ? 1 : 0);             // 同じシリーズ(同点のときの決め手)
+  };
   const related = list.filter((p) => p.slug !== meta.slug).map((p) => [p, score(p)] as const)
     .sort((a, b) => b[1] - a[1] || (a[0].date < b[0].date ? 1 : -1)).slice(0, 4).map((x) => x[0]);
   const jsonLd = [

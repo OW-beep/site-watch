@@ -3,6 +3,7 @@ import { Yusei_Magic, Klee_One } from "next/font/google";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { SITE_URL, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION, ADSENSE_CLIENT, GSC_VERIFICATION, GA_ID } from "@/lib/site";
+import { PROFILE } from "@/lib/profile";
 import "./globals.css";
 
 const yusei = Yusei_Magic({ weight: "400", subsets: ["latin"], variable: "--font-yusei", display: "swap" });
@@ -36,6 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
       </head>
       <body className={`${yusei.variable} ${klee.variable} font-sans`}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
+          { "@context": "https://schema.org", "@type": "WebSite", "@id": `${SITE_URL}/#website`, name: SITE_NAME, url: SITE_URL, description: SITE_DESCRIPTION, inLanguage: "ja", publisher: { "@id": `${SITE_URL}/#org` } },
+          { "@context": "https://schema.org", "@type": "Organization", "@id": `${SITE_URL}/#org`, name: SITE_NAME, url: SITE_URL, logo: `${SITE_URL}/og.png`, description: SITE_DESCRIPTION, sameAs: ["https://x.com/datascience26"],
+            founder: { "@type": "Person", name: `${SITE_NAME} 道場主`, url: `${SITE_URL}/about`, description: "公務員を経てITコンサルタントに転身。データ分析・データ活用の支援が専門。", knowsAbout: PROFILE.usedMethods } },
+        ]) }} />
         <SiteHeader />
         {children}
         <SiteFooter />

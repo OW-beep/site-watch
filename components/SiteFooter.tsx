@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
+import { SITE_NAME, SITE_TAGLINE, SISTER_SITES } from "@/lib/site";
 
 export default function SiteFooter() {
   return (
@@ -20,7 +20,12 @@ export default function SiteFooter() {
           <li><Link href="/sitemap" className="underline">サイトマップ</Link></li>
           <li><a href="/feed.xml" className="underline">RSS</a></li>
         </ul>
-        <p className="text-xs opacity-60 mt-8">© {new Date().getFullYear()} {SITE_NAME}</p>
+        <p className="text-xs opacity-80 mt-6">
+          姉妹サイト:{SISTER_SITES.map((s, i) => (
+            <span key={s.url}>{i > 0 && " / "}<a href={s.url} target="_blank" rel="noopener" className="underline">{s.name}</a></span>
+          ))}
+        </p>
+        <p className="text-xs opacity-60 mt-4">© {new Date().getFullYear()} {SITE_NAME}</p>
       </div>
     </footer>
   );

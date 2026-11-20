@@ -6,7 +6,7 @@ import { BELTS, AGES } from "@/lib/posts";
 import { AGE_INFO } from "@/components/AgeChip";
 import { PROBLEMS } from "@/lib/problems";
 import { BELT_INFO } from "@/components/BeltChip";
-import { SITE_NAME, SITE_TAGLINE, SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 
 const KUN = [
   "スマホは置いて、まず考えるべし",
@@ -17,15 +17,18 @@ const KUN = [
 
 export const metadata = { alternates: { canonical: SITE_URL } };
 
+// 編集選定の入口記事(アクセス解析ではなく、サイトの看板として道場主が選んだ4本)
+const POPULAR_SLUGS = ["datsudeji-toha-5-kata", "ansan-3kufu", "uragawa-5tejun", "tegaki-nikki-3kagetsu"];
+
 export default function Home() {
   const all = getAllPosts().filter((p) => !p.noindex);
   const latest = all.slice(0, 6);
+  const popular = POPULAR_SLUGS.map((s) => all.find((p) => p.slug === s)).filter((p): p is NonNullable<typeof p> => Boolean(p));
   const levels = BELTS.filter((b) => all.some((p) => p.belt === b));
   const cats = CATEGORIES.filter((c) => all.some((p) => p.category === c.label));
   return (
     <main className="max-w-5xl mx-auto px-5">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
-        { "@context": "https://schema.org", "@type": "WebSite", name: SITE_NAME, url: SITE_URL, description: SITE_DESCRIPTION, inLanguage: "ja" },
         { "@context": "https://schema.org", "@type": "Person", name: `${SITE_NAME} 道場主`, url: `${SITE_URL}/about`, knowsAbout: ["フェルミ推定", "ロジックツリー", "仮説思考", "課題設計"] },
       ]) }} />
       <section className="pt-14 pb-12 text-center">
@@ -54,6 +57,16 @@ export default function Home() {
         </ul>
         <p className="mt-4 text-sm"><Link href="/problems" className="underline font-bold">ほかの悩みも見る →</Link></p>
       </section>
+
+      {popular.length > 0 && (
+        <section aria-labelledby="pop" className="mb-14">
+          <h2 id="pop" className="font-display text-2xl mb-2">まず読んでほしい稽古</h2>
+          <p className="text-sm text-sumi-soft mb-5">はじめての方が入口に迷わないよう、道場主が選んだ4本です。サイトの考え方・頭の体操・仕事の考え方・続ける工夫を、1本ずつ。</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            {popular.map((p) => <PostCard key={p.slug} post={p} />)}
+          </div>
+        </section>
+      )}
 
       <section aria-labelledby="lv" className="mb-14">
         <h2 id="lv" className="font-display text-2xl mb-2">レベルで選ぶ</h2>

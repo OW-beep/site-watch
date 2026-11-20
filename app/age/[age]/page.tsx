@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import PostCard from "@/components/PostCard";
 import AgeChip, { AGE_INFO } from "@/components/AgeChip";
 import { AGES, getAllPosts } from "@/lib/posts";
 import type { Age } from "@/lib/posts";
+import { SITE_URL } from "@/lib/site";
 
 const used = () => AGES.filter((a) => getAllPosts().some((p) => !p.noindex && p.age === a));
 export function generateStaticParams() { return used().map((age) => ({ age })); }
@@ -18,6 +20,14 @@ export default function AgePage({ params }: { params: { age: string } }) {
   const posts = getAllPosts().filter((p) => !p.noindex && p.age === age);
   return (
     <main className="max-w-5xl mx-auto px-5 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([
+        { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+          { "@type": "ListItem", position: 1, name: "ホーム", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: `${info.label}できる稽古`, item: `${SITE_URL}/age/${age}` } ] },
+      ]) }} />
+      <nav className="text-xs text-sumi-soft mb-6" aria-label="パンくず">
+        <Link href="/">ホーム</Link> › {info.label}できる稽古
+      </nav>
       <AgeChip age={age} />
       <h1 className="font-display text-4xl mt-3"><span className="marker">{info.label}できる稽古</span></h1>
       <p className="mt-3 mb-8 text-sm text-sumi-soft">{info.desc}。全{posts.length}本。難易度は帯(白帯=入門〜黒帯=実務)で分けています。</p>

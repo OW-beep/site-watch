@@ -1,0 +1,1126 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>共通点さがし｜頭の体操ゲーム置き場</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+      * { box-sizing: border-box; }
+      :root{
+        --bg:#f6f2e9; --bg-grid:rgba(38,54,72,.07);
+        --paper:#fffdf7; --paper2:#efe9db;
+        --ink:#1c2733; --ink-soft:#4c5a68; --line:#d8d0bf;
+        --accent:#b73a2a; --accent-ink:#fff;
+        --teal:#2f6f6a; --good:#2e6b34; --good-bg:#e3efe0;
+        --bad:#a83226; --bad-bg:#f7e3de;
+        --chip:#26364a; --chip-ink:#f6f2e9;
+        --shadow:0 2px 0 rgba(28,39,51,.9);
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#141a21; --bg-grid:rgba(246,242,233,.06);
+          --paper:#1e2731; --paper2:#26313d;
+          --ink:#ece7da; --ink-soft:#aeb9c2; --line:#3a4653;
+          --accent:#d95f4b; --accent-ink:#141a21;
+          --teal:#4fa39b; --good:#8fce96; --good-bg:#22392a;
+          --bad:#f0927f; --bad-bg:#3d2622;
+          --chip:#ece7da; --chip-ink:#1c2733;
+          --shadow:0 2px 0 rgba(0,0,0,.7);
+        }
+      }
+      html{ -webkit-text-size-adjust:100%; }
+      body{
+        margin:0; color:var(--ink);
+        font-family:"Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+        background:
+          repeating-linear-gradient(0deg, var(--bg-grid) 0 1px, transparent 1px 28px),
+          repeating-linear-gradient(90deg, var(--bg-grid) 0 1px, transparent 1px 28px),
+          var(--bg);
+        line-height:1.75;
+      }
+      .wrap{ max-width:880px; margin:0 auto; padding:20px 16px 56px; }
+      h1,h2,h3{ font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif; line-height:1.35; margin:0; }
+      p{ margin:0; }
+
+      /* ---------- header ---------- */
+      .kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; color:var(--accent); }
+      .hero h1{ font-size:clamp(1.7rem,6vw,2.6rem); font-weight:800; margin:.25em 0 .35em; }
+      .hero .lead{ color:var(--ink-soft); font-size:.98rem; max-width:38em; }
+      .rules{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:20px 0 26px; }
+      .rule{ background:var(--paper); border:1.5px solid var(--ink); border-radius:6px; box-shadow:var(--shadow); padding:12px 14px; }
+      .rule b{ display:block; font-size:.95rem; margin-bottom:2px; }
+      .rule span{ font-size:.82rem; color:var(--ink-soft); line-height:1.6; display:block; }
+      @media (max-width:640px){ .rules{ grid-template-columns:1fr; } .rule{ display:flex; gap:12px; align-items:baseline; } .rule b{ white-space:nowrap; } }
+
+      /* ---------- game tabs ---------- */
+      .tabs{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+      .tab{
+        appearance:none; cursor:pointer; text-align:left;
+        background:var(--paper); color:var(--ink);
+        border:1.5px solid var(--ink); border-radius:6px; padding:12px 14px;
+        font:inherit; min-height:64px;
+      }
+      .tab .axis{ font-size:.75rem; font-weight:900; letter-spacing:.12em; color:var(--accent); display:block; }
+      .tab .name{ font-family:"Shippori Mincho",serif; font-weight:800; font-size:1.08rem; display:block; line-height:1.4; }
+      .tab .sub{ font-size:.78rem; color:var(--ink-soft); display:block; line-height:1.5; }
+      .tab[aria-selected="true"]{ background:var(--chip); color:var(--chip-ink); box-shadow:var(--shadow); }
+      .tab[aria-selected="true"] .sub{ color:var(--chip-ink); opacity:.75; }
+      .tab[aria-selected="true"] .axis{ color:#e8a294; }
+      @media (prefers-color-scheme: dark){ .tab[aria-selected="true"] .axis{ color:var(--accent); } }
+      @media (max-width:640px){ .tabs{ grid-template-columns:1fr; } .tab{ min-height:56px; } }
+
+      /* ---------- panels ---------- */
+      .panel{ background:var(--paper); border:1.5px solid var(--ink); border-radius:8px; box-shadow:var(--shadow); padding:22px 20px 26px; }
+      .panel[hidden]{ display:none; }
+      .panel-head{ display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 14px; margin-bottom:6px; }
+      .panel-head h2{ font-size:1.45rem; font-weight:800; }
+      .panel-head .axis-tag{ font-size:.75rem; font-weight:900; letter-spacing:.12em; color:var(--accent); border:1.5px solid var(--accent); border-radius:999px; padding:2px 10px; }
+      .howto{ color:var(--ink-soft); font-size:.92rem; margin-bottom:18px; max-width:40em; }
+      .howto b{ color:var(--ink); }
+
+      .progress-row{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+      .progress-label{ font-size:.85rem; font-weight:700; white-space:nowrap; }
+      .dots{ display:flex; gap:6px; }
+      .dot{ width:26px; height:8px; border-radius:99px; background:var(--paper2); border:1px solid var(--line); }
+      .dot.done{ background:var(--teal); border-color:var(--teal); }
+      .dot.now{ background:var(--accent); border-color:var(--accent); }
+      .score-label{ margin-left:auto; font-size:.85rem; font-weight:700; white-space:nowrap; }
+
+      .words{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; padding:22px 10px; background:var(--paper2); border:1px dashed var(--ink-soft); border-radius:8px; margin-bottom:8px; }
+      .word{ font-family:"Shippori Mincho",serif; font-weight:800; font-size:clamp(1.3rem,5.5vw,1.8rem); background:var(--paper); border:1.5px solid var(--ink); border-radius:6px; padding:6px 18px; box-shadow:2px 2px 0 rgba(28,39,51,.25); }
+      .word-sep{ align-self:center; font-weight:900; color:var(--accent); font-size:1.2rem; }
+      .q-text{ text-align:center; font-weight:700; margin:14px 0 16px; }
+      .case-title{ text-align:center; font-weight:700; font-size:1.02rem; margin-bottom:4px; }
+      .case-note{ text-align:center; color:var(--ink-soft); font-size:.85rem; margin-bottom:2px; }
+
+      .options{ display:grid; gap:10px; }
+      .opt{
+        appearance:none; cursor:pointer; font:inherit; text-align:left;
+        background:var(--paper); color:var(--ink);
+        border:1.5px solid var(--ink); border-radius:6px; padding:13px 16px;
+        font-size:.98rem; font-weight:500; min-height:52px; width:100%;
+      }
+      .opt:hover:not(:disabled){ background:var(--paper2); }
+      .opt:disabled{ cursor:default; opacity:.85; }
+      .opt.correct{ background:var(--good-bg); border-color:var(--good); font-weight:700; }
+      .opt.wrong{ background:var(--bad-bg); border-color:var(--bad); }
+      .opt .mark{ font-weight:900; margin-right:.4em; }
+      .opt.correct .mark{ color:var(--good); }
+      .opt.wrong .mark{ color:var(--bad); }
+
+      .feedback{ margin-top:16px; border-radius:6px; padding:14px 16px; font-size:.93rem; display:none; }
+      .feedback.show{ display:block; }
+      .feedback.ok{ background:var(--good-bg); border:1.5px solid var(--good); }
+      .feedback.ng{ background:var(--bad-bg); border:1.5px solid var(--bad); }
+      .feedback b{ display:block; margin-bottom:4px; font-size:1rem; }
+      .feedback .paper-tip{ margin-top:8px; font-size:.85rem; color:var(--ink-soft); }
+      .feedback .paper-tip b{ display:inline; font-size:.85rem; color:var(--ink); }
+
+      .nav-row{ display:flex; justify-content:flex-end; margin-top:16px; }
+      .btn{
+        appearance:none; cursor:pointer; font:inherit; font-weight:700;
+        border:1.5px solid var(--ink); border-radius:6px; padding:10px 22px; min-height:48px;
+        background:var(--accent); color:var(--accent-ink); box-shadow:var(--shadow);
+      }
+      .btn.secondary{ background:var(--paper); color:var(--ink); }
+      .btn:active{ transform:translateY(2px); box-shadow:none; }
+      .btn[hidden]{ display:none; }
+
+      .result{ text-align:center; padding:10px 0 4px; display:none; }
+      .result.show{ display:block; }
+      .result .big{ font-family:"Shippori Mincho",serif; font-size:2rem; font-weight:800; margin-bottom:6px; }
+      .result .msg{ color:var(--ink-soft); max-width:32em; margin:0 auto 18px; font-size:.95rem; }
+      .share-box{ max-width:480px; margin:0 auto 16px; text-align:left; }
+      .share-box label{ font-size:.8rem; font-weight:700; display:block; margin-bottom:6px; }
+      .share-row{ display:flex; gap:8px; }
+      .share-row textarea{
+        flex:1; font:inherit; font-size:.85rem; padding:10px; border:1.5px solid var(--line);
+        border-radius:6px; background:var(--paper2); color:var(--ink); resize:none; min-height:64px;
+      }
+      .share-row .btn{ align-self:flex-start; }
+      .copy-note{ font-size:.8rem; color:var(--good); min-height:1.4em; margin-top:4px; font-weight:700; }
+      .result-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+      /* ---------- tetris ---------- */
+      .t-stats{ display:flex; flex-wrap:wrap; gap:8px 20px; margin-bottom:14px; font-size:.9rem; font-weight:700; }
+      .t-stats span b{ color:var(--accent); font-size:1.1rem; }
+      .t-layout{ display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+      .board-wrap{ flex:0 0 auto; margin:0 auto; }
+      .board{
+        display:grid; grid-template-columns:repeat(5,1fr); gap:3px;
+        width:min(300px,78vw); padding:8px;
+        background:var(--paper2); border:1.5px solid var(--ink); border-radius:8px;
+      }
+      .score-breakdown{ max-width:480px; margin:0 auto 16px; text-align:left; background:var(--paper2); border:1.5px solid var(--ink); border-radius:8px; padding:14px 16px; }
+      .score-breakdown .sb-title{ font-size:.75rem; font-weight:900; letter-spacing:.12em; color:var(--accent); margin-bottom:8px; }
+      .score-breakdown .sb-row{ display:flex; justify-content:space-between; gap:12px; font-size:.92rem; padding:3px 0; }
+      .score-breakdown .sb-row .sb-note{ color:var(--ink-soft); font-size:.8rem; display:block; }
+      .score-breakdown .sb-row b{ white-space:nowrap; }
+      .score-breakdown .sb-total{ border-top:1.5px solid var(--ink); margin-top:8px; padding-top:8px; font-weight:900; font-size:1.02rem; }
+      .cell{ aspect-ratio:1/1; border-radius:5px; background:var(--paper); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:clamp(1rem,5vw,1.3rem); color:#fff; }
+      .cell.filled{ border-color:rgba(0,0,0,.25); text-shadow:0 1px 2px rgba(0,0,0,.35); }
+      .cell.current{ outline:3px solid var(--ink); outline-offset:-3px; }
+      .cell.clearing{ background:var(--accent) !important; }
+      .n1,.n9{ background:#2f6f6a; } .n2,.n8{ background:#bc6c25; }
+      .n3,.n7{ background:#3f639e; } .n4,.n6{ background:#6d8f2f; }
+      .n5{ background:#b03a2e; }
+      @media (prefers-color-scheme: dark){
+        .n1,.n9{ background:#256a64; } .n2,.n8{ background:#a35e1e; }
+        .n3,.n7{ background:#33568c; } .n4,.n6{ background:#59761f; }
+        .n5{ background:#9c3226; }
+      }
+      .t-side{ flex:1 1 220px; min-width:220px; }
+      .t-side h3{ font-size:1rem; margin-bottom:6px; }
+      .t-side ul{ margin:0 0 14px; padding-left:1.2em; font-size:.88rem; color:var(--ink-soft); }
+      .t-side ul b{ color:var(--ink); }
+      .pair-legend{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+      .pair-legend span{ font-size:.78rem; font-weight:700; border:1.5px solid var(--ink); border-radius:999px; padding:3px 10px; background:var(--paper); }
+      .t-msg{ font-size:.92rem; font-weight:700; min-height:1.8em; margin-bottom:10px; }
+      .t-controls{ display:flex; gap:10px; justify-content:center; margin-top:14px; }
+      .t-controls button{
+        appearance:none; cursor:pointer; font:inherit; font-weight:900; font-size:1.15rem;
+        width:72px; min-height:56px; border:1.5px solid var(--ink); border-radius:8px;
+        background:var(--paper); color:var(--ink); box-shadow:var(--shadow);
+      }
+      .t-controls button:active{ transform:translateY(2px); box-shadow:none; }
+      .t-controls button:disabled{ opacity:.4; cursor:default; }
+      .keys-note{ text-align:center; font-size:.78rem; color:var(--ink-soft); margin-top:8px; }
+
+      .feedback .detail{ margin-top:10px; padding-top:10px; border-top:1px dashed var(--ink-soft); }
+      .feedback .detail h4{ margin:0 0 6px; font-size:.88rem; }
+      .feedback .detail ul{ margin:0; padding-left:1.2em; }
+      .feedback .detail li{ margin-bottom:4px; }
+      .feedback .daily{ margin-top:10px; background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:10px 12px; font-size:.88rem; }
+      .feedback .daily b{ display:inline; font-size:.88rem; }
+      .article-link{ display:block; margin-top:12px; padding:12px 14px; background:var(--paper); border:1.5px solid var(--ink); border-radius:6px; color:var(--ink); text-decoration:none; box-shadow:var(--shadow); }
+      .article-link:hover{ background:var(--paper2); }
+      .article-link .al-label{ font-size:.72rem; font-weight:900; letter-spacing:.1em; color:var(--accent); display:block; }
+      .article-link .al-title{ font-weight:700; font-size:.95rem; display:block; line-height:1.5; }
+      .article-link .al-note{ font-size:.82rem; color:var(--ink-soft); display:block; }
+      .belt-box{ max-width:480px; margin:0 auto 18px; background:var(--paper2); border:1.5px solid var(--ink); border-radius:8px; padding:16px; }
+      .belt-box .belt-label{ font-size:.75rem; font-weight:900; letter-spacing:.12em; color:var(--accent); }
+      .belt-visual{ height:22px; border-radius:4px; border:1.5px solid var(--ink); margin:10px auto; max-width:260px; position:relative; }
+      .belt-visual::after{ content:""; position:absolute; top:0; bottom:0; left:50%; width:10px; background:var(--ink); opacity:.85; transform:translateX(-50%); }
+      .belt-white{ background:#f7f3e8; } .belt-yellow{ background:#e9c93a; } .belt-green{ background:#3f7d4a; } .belt-blue{ background:#2f5f9e; } .belt-black{ background:#1c2733; }
+      .belt-name{ font-family:"Shippori Mincho",serif; font-size:1.5rem; font-weight:800; }
+      .belt-stage{ font-weight:700; font-size:.95rem; }
+      .belt-comment{ font-size:.9rem; color:var(--ink-soft); margin-top:4px; }
+
+      footer{ margin-top:28px; font-size:.82rem; color:var(--ink-soft); text-align:center; }
+      footer .fin{ font-family:"Shippori Mincho",serif; font-weight:800; color:var(--ink); font-size:.95rem; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="hero">
+        <p class="kicker">脱デジ道場 ・ 頭の体操ゲーム置き場（試作）</p>
+        <h1>ルールがひとつ多い、<br />頭の体操ゲーム</h1>
+        <p class="lead">知っている遊びに、考えるルールをひとつだけ足しました。反射神経ではなく、頭を使った分だけ進みます。どれも1セット数分で終わります。</p>
+        <div class="rules">
+          <div class="rule"><b>終わりがある</b><span>1セットは5問、またはブロック30個まで。終わったら結果が出て、そこで終了です。</span></div>
+          <div class="rule"><b>考えるのが本体</b><span>速さの勝負にはしません。落下パズルも、落ちる速さは最初から最後まで同じです。</span></div>
+          <div class="rule"><b>紙でもできる</b><span>どのゲームも、紙とペンや口頭で同じ遊びができます。画面は入口、本編は自分の頭の中です。</span></div>
+        </div>
+      </header>
+
+      <nav class="tabs" role="tablist" aria-label="ゲームを選ぶ">
+        <button class="tab" role="tab" id="tab-common" aria-selected="true" aria-controls="panel-common" data-tab="common">
+          <span class="axis">広げる</span>
+          <span class="name">共通点さがし</span>
+          <span class="sub">抽象的な3つの言葉の、共通点を当てる</span>
+        </button>
+        <button class="tab" role="tab" id="tab-mece" aria-selected="false" aria-controls="panel-mece" data-tab="mece">
+          <span class="axis">整理する</span>
+          <span class="name">MECEにできるか</span>
+          <span class="sub">分け方の「漏れ」と「ダブり」を見抜く</span>
+        </button>
+        <button class="tab" role="tab" id="tab-tasu" aria-selected="false" aria-controls="panel-tasu" data-tab="tasu">
+          <span class="axis">詰める</span>
+          <span class="name">たして10パズル</span>
+          <span class="sub">数字ブロックの落下パズル＋暗算</span>
+        </button>
+      </nav>
+
+      <!-- ============ 共通点さがし ============ -->
+      <section class="panel" id="panel-common" role="tabpanel" aria-labelledby="tab-common">
+        <div class="panel-head"><h2>共通点さがし</h2><span class="axis-tag">広げる稽古</span></div>
+        <p class="howto">出てくるのは、目に見えない<b>抽象的な言葉</b>ばかり。見た目や形は手がかりになりません。意味を掘って、3つすべてに当てはまる共通点を5つの選択肢から選んでください。選択肢には「2つには当てはまるのに1つだけ外れる」惜しい答えも混ざっています。全5問です。</p>
+
+        <div id="common-play">
+          <div class="progress-row">
+            <span class="progress-label" id="common-progress">第1問 / 5</span>
+            <div class="dots" id="common-dots"></div>
+            <span class="score-label" id="common-score">正解 0</span>
+          </div>
+          <div class="words" id="common-words"></div>
+          <p class="q-text">この3つに共通するのは、どれ？</p>
+          <div class="options" id="common-options"></div>
+          <div class="feedback" id="common-feedback"></div>
+          <div class="nav-row"><button class="btn" id="common-next" hidden>次の問題へ</button></div>
+        </div>
+
+        <div class="result" id="common-result">
+          <p class="big" id="common-result-score"></p>
+          <p class="msg" id="common-result-msg"></p>
+          <a class="article-link" href="https://datsu-digi.vercel.app/posts/atama-mode-4tsu" target="_blank" rel="noopener">
+            <span class="al-label">もっと深める ・ 脱デジ道場の記事</span>
+            <span class="al-title">アイデアが出ないのは、頭の使い方のモードが違うから</span>
+            <span class="al-note">共通点を探す「広げる」考え方を、日常のアイデア出しに使うコツをまとめています。（新しいタブで開きます）</span>
+          </a>
+          <div class="share-box">
+            <label for="common-share">結果（Xへの投稿などにどうぞ）</label>
+            <div class="share-row">
+              <textarea id="common-share" readonly></textarea>
+              <button class="btn secondary" id="common-copy">コピー</button>
+            </div>
+            <p class="copy-note" id="common-copy-note"></p>
+          </div>
+          <div class="result-actions">
+            <button class="btn secondary" id="common-restart">問題を変えて、もう1セット</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MECE ============ -->
+      <section class="panel" id="panel-mece" role="tabpanel" aria-labelledby="tab-mece" hidden>
+        <div class="panel-head"><h2>MECEにできるか</h2><span class="axis-tag">整理する稽古</span></div>
+        <p class="howto"><b>MECE（ミッシー）</b>とは「漏れなく、ダブりなく」分けた状態のこと。いろいろな分け案が出てくるので、それぞれ<b>「漏れがある」「ダブりがある」「MECEになっている」</b>のどれかを判定してください。全5問で、<b>後半ほど難しくなります</b>。終盤には、パッと見は完璧に見えるのに境界に漏れやダブりが隠れた分け案や、<b>「どこが漏れているか」「何がダブっているか」自体を選ぶ問題</b>も出ます。急ぐ必要はありません。1問ずつ、境界を指でなぞるように確かめてください。資料作りや買い物リストで、そのまま使える目が育ちます。</p>
+
+        <div id="mece-play">
+          <div class="progress-row">
+            <span class="progress-label" id="mece-progress">第1問 / 5</span>
+            <div class="dots" id="mece-dots"></div>
+            <span class="score-label" id="mece-score">正解 0</span>
+          </div>
+          <p class="case-title" id="mece-title"></p>
+          <p class="case-note" id="mece-note"></p>
+          <div class="words" id="mece-words"></div>
+          <p class="q-text">この分け方は、どうなっている？</p>
+          <div class="options" id="mece-options"></div>
+          <div class="feedback" id="mece-feedback"></div>
+          <div class="nav-row"><button class="btn" id="mece-next" hidden>次の問題へ</button></div>
+        </div>
+
+        <div class="result" id="mece-result">
+          <p class="big" id="mece-result-score"></p>
+          <p class="msg" id="mece-result-msg"></p>
+          <div class="belt-box" id="mece-belt-box">
+            <p class="belt-label">成果の分類 ・ あなたの帯</p>
+            <div class="belt-visual belt-white" id="mece-belt-visual"></div>
+            <p class="belt-name" id="mece-belt-name">白帯</p>
+            <p class="belt-stage" id="mece-belt-stage"></p>
+            <p class="belt-comment" id="mece-belt-comment"></p>
+          </div>
+          <a class="article-link" href="https://datsu-digi.vercel.app/posts/kozoka-wakeru-nyumon" target="_blank" rel="noopener">
+            <span class="al-label">もっと深める ・ 脱デジ道場の記事</span>
+            <span class="al-title">ごちゃごちゃを整理する「分け方」のコツ：もれなく、ダブりなく</span>
+            <span class="al-note">MECEの考え方を、資料作りや家事・買い物の整理に使う方法をやさしく解説しています。（新しいタブで開きます）</span>
+          </a>
+          <div class="share-box">
+            <label for="mece-share">結果（Xへの投稿などにどうぞ）</label>
+            <div class="share-row">
+              <textarea id="mece-share" readonly></textarea>
+              <button class="btn secondary" id="mece-copy">コピー</button>
+            </div>
+            <p class="copy-note" id="mece-copy-note"></p>
+          </div>
+          <div class="result-actions">
+            <button class="btn secondary" id="mece-restart">問題を変えて、もう1セット</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ たして10パズル ============ -->
+      <section class="panel" id="panel-tasu" role="tabpanel" aria-labelledby="tab-tasu" hidden>
+        <div class="panel-head"><h2>たして10パズル</h2><span class="axis-tag">詰める稽古</span></div>
+        <p class="howto">数字のブロックが1つずつ落ちてきます。<b>縦または横に連続して並んだ数字の合計がちょうど10になると、その並びが消えます。2つでも、3つ以上でも消えます</b>（例：縦の1・3・6）。複数の並びが重なるときは、条件を満たす並びに含まれるブロックをまとめて消します。盤面は<b>5列×8段</b>で、落ちてくるのは全部で<b>30個</b>。<b>大きい数字が多めに出る</b>ので、置き方を間違えると消しきれず、てっぺんまで積み上がって終わることもよくあります。30個置き終わるか、てっぺんまで積み上がったら終了です。置く場所を考えながら暗算するのが本体なので、落ちる速さは上がりません。</p>
+
+        <div class="t-stats">
+          <span>スコア <b id="t-score">0</b></span>
+          <span>消した組 <b id="t-pairs">0</b></span>
+          <span>あと <b id="t-left">30</b> 個</span>
+          <span>次の数字 <b id="t-next">―</b></span>
+        </div>
+
+        <div class="t-layout">
+          <div class="board-wrap">
+            <div class="board" id="t-board" aria-label="たして10パズルの盤面"></div>
+            <div class="t-controls">
+              <button id="t-left-btn" aria-label="左へ動かす" disabled>◀</button>
+              <button id="t-down-btn" aria-label="早く落とす" disabled>▼</button>
+              <button id="t-right-btn" aria-label="右へ動かす" disabled>▶</button>
+            </div>
+            <p class="keys-note">キーボード：← → で移動、↓ で早く落とす</p>
+          </div>
+          <div class="t-side">
+            <h3>消える組み合わせ</h3>
+            <div class="pair-legend">
+              <span>1 ＋ 9</span><span>2 ＋ 8</span><span>3 ＋ 7</span><span>4 ＋ 6</span><span>5 ＋ 5</span>
+              <span>1 ＋ 3 ＋ 6</span><span>2 ＋ 3 ＋ 5</span><span>1 ＋ 2 ＋ 7</span><span>1 ＋ 2 ＋ 3 ＋ 4</span>
+            </div>
+            <h3>遊び方</h3>
+            <ul>
+              <li>2つのときは、同じ色の数字同士が、足して10の相方です。3つ以上は色が違っても、縦・横の並びで合計10になれば消えます。</li>
+              <li>消えたあとは上のブロックが落ちてきます。<b>落ちた先でまた10になれば連鎖</b>します。</li>
+              <li>5と5、4と6のように、<b>「あといくつで10か」</b>を先に読むのがコツです。1と3が並んでいたら「あと6」で3つ消しも狙えます。</li>
+              <li>6〜9の大きい数字が多めに出ます。相方（1〜4）が来るまで置き場に困るので、<b>高い列を作らない</b>ことが詰まらないコツです。</li>
+            </ul>
+            <h3>得点のつき方</h3>
+            <ul>
+              <li><b>同時に消した個数が多いほど、1個あたりが高得点</b>です（2つ消しは1個10点、3つ消しは1個15点、4つ消しは1個20点…）。</li>
+              <li><b>連鎖は倍率</b>がかかります（2連鎖目は2倍、3連鎖目は3倍）。</li>
+              <li>終了時に<b>盤面に残ったブロックが少ないほどボーナス</b>。全部消せたら<b>全消しボーナス500点</b>です。</li>
+            </ul>
+            <p class="t-msg" id="t-msg">下のボタンでスタート。1セットはブロック30個までです。</p>
+            <button class="btn" id="t-start">スタート</button>
+            <div class="result" id="t-result">
+              <p class="big" id="t-result-score"></p>
+              <p class="msg" id="t-result-msg"></p>
+              <div class="score-breakdown" id="t-breakdown"></div>
+              <div class="share-box">
+                <label for="t-share">結果（Xへの投稿などにどうぞ）</label>
+                <div class="share-row">
+                  <textarea id="t-share" readonly></textarea>
+                  <button class="btn secondary" id="t-copy">コピー</button>
+                </div>
+                <p class="copy-note" id="t-copy-note"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p class="fin">稽古は、ここまで。</p>
+        <p>1日1セットで十分です。物足りなくなったら、紙とペンで同じ遊びをどうぞ。<br />共通点さがしは家族で出し合うのもおすすめです。</p>
+      </footer>
+    </div>
+
+    <script>
+      "use strict";
+      function shuffle(arr){
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--){
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+      function copyText(textareaId, noteId){
+        var ta = document.getElementById(textareaId);
+        var note = document.getElementById(noteId);
+        function done(){ note.textContent = "コピーしました。"; }
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(ta.value).then(done, function(){
+            ta.focus(); ta.select();
+            try { document.execCommand("copy"); done(); }
+            catch(e){ note.textContent = "上の文を選んでコピーしてください。"; }
+          });
+        } else {
+          ta.focus(); ta.select();
+          try { document.execCommand("copy"); done(); }
+          catch(e){ note.textContent = "上の文を選んでコピーしてください。"; }
+        }
+      }
+
+      /* ================= 共通点さがし ================= */
+      var COMMON_BANK = [
+        {
+          words: ["約束", "借金", "秘密"],
+          answer: "相手との信頼の上に成り立つ",
+          options: ["相手との信頼の上に成り立つ", "目に見える形がある", "必ずお金が関係する", "人に知られると困るもの", "期限や返す約束が決まっているもの"],
+          why: "「人に知られると困る」は秘密と借金には当てはまりますが、約束は人に話しても成り立ちます。「期限や返す約束が決まっている」は約束と借金にはありますが、秘密には期限がありません。「お金が関係する」は借金だけ、「目に見える形」はどれにも当てはまりません。2つには当てはまるのに、3つ目で外れる選択肢が一番のひっかけです。",
+          daily: "日常のコツ：共通点を探すときは、思いついた答えを3つ全部に当てはめて声に出してみてください。「これは？ これは？」と1つずつ確かめるだけで、惜しい答えに引っかからなくなります。",
+          explain: "約束は守る、借金は返す、秘密は漏らさない。どれも相手が「この人なら大丈夫」と信じて初めて成り立ち、裏切れば信頼ごと崩れます。",
+          tip: "紙でもできる：家族で言葉を3つ出し合い、共通点を言い当てる側と出題する側に分かれてみてください。"
+        },
+        {
+          words: ["レシピ", "楽譜", "設計図"],
+          answer: "手順や指示が書かれていて、従うと同じ結果を再現できる",
+          options: ["読むだけで楽しむためのもの", "手順や指示が書かれていて、従うと同じ結果を再現できる", "作った人の名前が必ず書いてある", "文字だけで書かれているもの", "材料や道具の名前が必ず書いてあるもの"],
+          why: "「文字だけ」はレシピには近いですが、楽譜は記号、設計図は図面が中心です。「材料や道具の名前」はレシピと設計図にはありますが、楽譜には材料がありません。「読むだけで楽しむ」「作った人の名前」は、たまたまそうなっている場合があるだけで、3つに共通する役割ではありません。",
+          daily: "日常のコツ：「誰がやっても同じ結果になるか？」と問うと、仕組みの共通点が見えます。仕事の手順書や家事のメモも、この目で見ると改善点が見つかります。",
+          explain: "料理、演奏、建物。分野は違っても、どれも「書かれた指示に従えば、別の人でも同じものを再現できる」という仕組みは同じです。",
+          tip: "紙でもできる：「誰でも同じ結果になる書き方」を、身の回りのもので探してみてください。"
+        },
+        {
+          words: ["時間", "チャンス", "若さ"],
+          answer: "過ぎ去ると、二度とそのままでは戻らない",
+          options: ["お金で買うことができる", "人に貸したりあげたりできる", "過ぎ去ると、二度とそのままでは戻らない", "誰にでも平等に与えられているもの", "数字でぴったり測ることができるもの"],
+          why: "「平等に与えられている」は時間には言えますが、若さの長さもチャンスの数も人によって違います。「数字で測れる」は時間と年齢には当てはまりますが、チャンスは数えられません。「お金で買う」「貸し借りできる」は、3つともできません。",
+          daily: "日常のコツ：「取り戻せるか、戻らないか」で分けると、大事にすべきものが見えてきます。お金や物は戻りますが、時間と機会は戻りません。予定を入れるときの判断にも使えます。",
+          explain: "お金は失っても稼ぎ直せますが、この3つは一度過ぎると取り戻せません。「今しかない」ものの代表です。",
+          tip: "考えるヒント：「失っても取り戻せるもの／戻らないもの」で身の回りを分けてみると、この型の問題が作れます。"
+        },
+        {
+          words: ["うわさ", "笑い", "あくび"],
+          answer: "人から人へ、自然に広がっていく",
+          options: ["人から人へ、自然に広がっていく", "一人で完結するもの", "形として残り続けるもの", "体の反応として自然に出てくるもの", "良いものとしてだけ扱われるもの"],
+          why: "「体の反応として出る」は笑いとあくびには当てはまりますが、うわさは体から出るものではありません。「良いものとしてだけ」は笑いには近いですが、あくびは失礼に、うわさは困りごとに扱われることもあります。「一人で完結」「形として残る」は逆で、どれも残らず広がっていきます。",
+          daily: "日常のコツ：「広がるもの」を見分けられると、情報との付き合い方が変わります。うわさは広がる前に一度止めて確かめる、笑いは遠慮なく広げる、と使い分けられます。",
+          explain: "どれも誰かが始めると、周りの人に次々と移っていきます。止めようとしても止めにくいところも共通です。",
+          tip: "紙でもできる：「人から人へ移るもの」を他にも探してみてください。風邪、流行、感動…意外と出てきます。"
+        },
+        {
+          words: ["謝罪", "感謝", "告白"],
+          answer: "言葉にして初めて、相手に届く気持ち",
+          options: ["ルールで決められた行動", "言葉にして初めて、相手に届く気持ち", "一人で完結する作業", "勇気がいるもの", "相手に負担をかけることがあるもの"],
+          why: "「勇気がいる」は謝罪と告白には当てはまりますが、感謝はもっと気軽に伝えられるものです。「相手に負担をかける」は謝罪や告白ではあり得ますが、感謝で負担になることはまずありません。「ルールで決められた」「一人で完結」は、どれにも当てはまりません。",
+          daily: "日常のコツ：感謝だけは「言葉にしないと届かない」のに勇気がいりません。だから一番割に合う一手です。思いついたら、その日のうちに言葉にしてみてください。",
+          explain: "思っているだけでは相手には伝わりません。口に出す・文字にするという一手間があって、初めて届く気持ちです。",
+          tip: "考えるヒント：「言わないと伝わらないもの」は、言い換えると「形のないものを言葉に変える作業」です。"
+        },
+        {
+          words: ["言語", "通貨", "交通ルール"],
+          answer: "多くの人が同じ約束事を共有して、初めて成り立つ",
+          options: ["自然に生えてくるもの", "一人だけでも成り立つもの", "多くの人が同じ約束事を共有して、初めて成り立つ", "学校や教習で習うもの", "破ると罰があるもの"],
+          why: "「学校や教習で習う」は言語と交通ルールには当てはまりますが、通貨は習わなくても使えます。「破ると罰がある」は交通ルールと通貨（偽造など）にはありますが、言葉の使い方を間違えても罰はありません。「自然に生える」「一人で成り立つ」は、正解と正反対です。",
+          daily: "日常のコツ：「みんながそう決めているから成り立つもの」は、決まりが変われば価値も変わります。ポイントや地域通貨も同じ仕組みなので、貯め込みすぎない判断に使えます。",
+          explain: "言葉もお金もルールも、自分一人では意味を持ちません。「みんながそうだと決めている」こと自体が力になっています。",
+          tip: "紙でもできる：「みんなが信じているから成り立つもの」を探すと、社会の仕組みが見えてきます。"
+        },
+        {
+          words: ["影", "反響（エコー）", "鏡の像"],
+          answer: "元のものがあって初めて生まれる、実体のない姿",
+          options: ["元のものがあって初めて生まれる、実体のない姿", "触って確かめられるもの", "時間がたつと大きくなるもの", "光がないと生まれないもの", "元のものとそっくり同じ形になるもの"],
+          why: "「光がないと生まれない」は影と鏡の像には当てはまりますが、反響（エコー）は音なので光は関係ありません。「そっくり同じ形」は影と鏡には近いですが、反響に形はありません。「触って確かめられる」「時間がたつと大きくなる」は、どれにも当てはまりません。",
+          daily: "日常のコツ：「本体と、それについてくるもの」を分けて見ると、物事の原因が見えます。評判や印象も影のようなもので、本体（実績や行動）を動かすと一緒に動きます。",
+          explain: "どれも「本体」がなければ生まれず、手で触ることもできません。本体が動けば一緒に動き、本体が消えれば消えます。",
+          tip: "考えるヒント：「本体と、それについてくるもの」という関係で見ると、共通点が浮かびます。"
+        },
+        {
+          words: ["習慣", "借金の利子", "雪だるま"],
+          answer: "小さな積み重ねが、だんだん大きな差になる",
+          options: ["一度で完成するもの", "運だけで決まるもの", "小さな積み重ねが、だんだん大きな差になる", "放っておいても自然に大きくなるもの", "毎日続けることでしか作れないもの"],
+          why: "「放っておいても大きくなる」は利子には当てはまりますが、雪だるまは転がさないと大きくならず、習慣は放っておくと消えていきます。「毎日続けることでしか」は習慣には当てはまりますが、利子は続ける作業がなくても増えます。「一度で完成」「運だけ」は逆です。",
+          daily: "日常のコツ：積み重ねが加速するものは、早く始めるほど得です。貯金も語学も、金額や時間の大きさより「いつ始めたか」が効いてきます。",
+          explain: "雪だるまは転がすほど大きくなり、利子は元本をふくらませ、習慣は毎日の少しずつが効いてきます。「積み重ねが加速する」仕組みが共通です。",
+          tip: "紙でもできる：「少しずつ加速するもの」を自分の生活の中から1つ挙げてみてください。"
+        }
+      ];
+
+      /* ================= MECE ================= */
+      var MECE_BANK = [
+        {
+          title: "四季を分けると…",
+          note: "1年を季節で分類しました",
+          cats: ["春", "夏", "秋"],
+          verdict: "leak",
+          explain: "冬が入っていません。これが「漏れ」です。分けるときは、まず「全部でいくつあるはずか」を数えてから分けると漏れに気づけます。",
+          tip: "直すなら：春・夏・秋・冬の4つでMECEになります。",
+          whyOthers: "「ダブりがある」ではありません。春・夏・秋は重なっていません。「MECEになっている」でもありません。1年は4つの季節で1周するのに、1つ欠けているからです。",
+          daily: "日常のコツ：分けるときは先に「全部でいくつあるはず？」と総数を声に出すこと。四季なら4、1週間なら7日。総数が決まっているものは、この一言で漏れがほぼ防げます。"
+        },
+        {
+          title: "食べ物を分けると…",
+          note: "スーパーの売り場を想定した分類です",
+          cats: ["野菜", "緑黄色野菜", "肉", "魚"],
+          verdict: "overlap",
+          explain: "緑黄色野菜は、野菜の一部です。「野菜」と「緑黄色野菜」の両方に入るものがあるので「ダブり」です。大きなグループと、その一部を並べるとダブります。",
+          tip: "直すなら：「緑黄色野菜」と「その他の野菜」に分けると、ダブりが消えます。",
+          whyOthers: "「漏れがある」が一番の問題ではありません。果物などが抜けている面はありますが、決定的なのは「野菜」の中に「緑黄色野菜」が含まれる重なりです。大きなグループと、その一部を横に並べたらダブり、と覚えてください。",
+          daily: "日常のコツ：買い物リストで「野菜」と「にんじん」を並べて書くと二重買いします。並べるのは同じ大きさのグループ同士、が鉄則です。"
+        },
+        {
+          title: "信号の色を分けると…",
+          note: "日本の車両用信号の色です",
+          cats: ["赤", "黄", "青（緑）"],
+          verdict: "ok",
+          explain: "信号の色はこの3色だけ。漏れもダブりもない、きれいなMECEです。もともと数が決まっているものは、分けやすい題材です。",
+          tip: "ポイント：数が決まっているもの（曜日、血液型など）は、まず総数を押さえるのがコツです。",
+          whyOthers: "「漏れがある」ではありません。日本の車両用信号は赤・黄・青（緑）の3色しかありません。「ダブりがある」でもありません。1つのランプが2色に同時になることはないからです。",
+          daily: "日常のコツ：もともと総数が決まっているもの（曜日、血液型、信号の色）はMECEにしやすい題材です。分類に迷ったら、まず総数が決まっている分け方を探してみてください。"
+        },
+        {
+          title: "「学生」を分けると…",
+          note: "学生の種類を分類しました",
+          cats: ["小学生", "中学生", "高校生"],
+          verdict: "leak",
+          explain: "大学生と専門学校生が入っていません。「学生＝高校まで」という思い込みが漏れの原因です。言葉の範囲を広めに取るのがコツです。",
+          tip: "直すなら：小学生・中学生・高校生・大学生・専門学校生などでMECEに近づきます。",
+          whyOthers: "「ダブりがある」ではありません。小・中・高は重なりません。問題は範囲の思い込みです。「学生」という言葉が指す範囲は高校までより広く、大学・専門学校・大学院まで含みます。",
+          daily: "日常のコツ：アンケートの「職業」欄や名簿作りでも同じ漏れが起きます。言葉の範囲を一番広い意味で取り直してから分けると、漏れが減ります。"
+        },
+        {
+          title: "1週間を分けると…",
+          note: "カレンダーの日を分類しました",
+          cats: ["平日", "土日", "祝日"],
+          verdict: "overlap",
+          explain: "祝日は、平日にも土日にも重なります（土曜が祝日のこともあります）。性質の違う軸を混ぜるとダブりが出ます。",
+          tip: "直すなら：「平日／土日」の軸と「祝日かどうか」の軸は、別々に分けるのが正解です。",
+          whyOthers: "「漏れがある」ではありません。7日すべて、平日か土日のどちらかには入ります。問題は祝日という別の物差しが混ざっていること。軸が2本ある分類は、必ずどこかで重なります。",
+          daily: "日常のコツ：予定表で「平日／休日」と「家族の予定かどうか」を同じ色分けで管理すると混乱します。軸ごとに別の印（色と記号など）を使うと整理できます。"
+        },
+        {
+          title: "血液型を分けると…",
+          note: "ABO式の血液型の分類です",
+          cats: ["A型", "B型", "O型", "AB型"],
+          verdict: "ok",
+          explain: "ABO式はこの4種類だけ。漏れもダブりもありません。総数が決まっている分類はMECEにしやすい、という見本です。",
+          tip: "ポイント：分け始める前に「全部で何種類あるか」を確認すると、判定が速くなります。",
+          whyOthers: "「漏れがある」ではありません。ABO式はA・B・O・ABの4種類で全部です。「ダブりがある」でもありません。1人の血液型が2種類に同時になることはありません。",
+          daily: "日常のコツ：総数がはっきりしている分類は、安心して使えます。逆に総数が言えない分類（「若者」「ベテラン」など境界が曖昧なもの）は、使う前に定義を決めるのがコツです。"
+        },
+        {
+          title: "飲み物を分けると…",
+          note: "コンビニの棚を想定した分類です",
+          cats: ["お茶", "コーヒー", "ジュース", "甘い飲み物"],
+          verdict: "overlap",
+          explain: "ジュースは甘い飲み物でもあります。「種類」の軸と「味」の軸が混ざっているのでダブります。軸を1つにそろえるのがMECEの基本です。",
+          tip: "直すなら：お茶・コーヒー・ジュース・水のように、種類の軸だけで分けます。",
+          whyOthers: "「漏れがある」面もありますが、本質は軸の混在です。「お茶・コーヒー・ジュース」は種類の軸、「甘い飲み物」は味の軸。軸が違うものを並べると、甘いジュースのように両方に入るものが出ます。",
+          daily: "日常のコツ：冷蔵庫や書類の整理でも同じです。「飲み物は種類で棚を分ける」「味は値札で示す」のように、軸は1つに決めて、別の情報は別の方法で付けます。"
+        },
+        {
+          title: "乗り物を分けると…",
+          note: "「電車」を分類しました…のではなく、乗り物全体のつもりの分類です",
+          cats: ["電車", "バス", "タクシー", "飛行機"],
+          verdict: "leak",
+          explain: "船、自転車、バイクなどが入っていません。身近なものだけを挙げると、思いつかなかったものが漏れます。「陸・海・空」で先に大きく分けると漏れにくいです。",
+          tip: "直すなら：まず陸・海・空で分け、その中を細かくすると漏れが減ります。",
+          whyOthers: "「ダブりがある」ではありません。電車・バス・タクシー・飛行機は重なりません。問題は、思いついたものだけを並べたこと。船や自転車のように、普段使わないものほど漏れます。",
+          daily: "日常のコツ：漏れを防ぐ定石は、先に大きな枠で分けることです。乗り物なら「陸・海・空」、家事なら「場所ごと」のように枠を先に置くと、中身の漏れに気づけます。"
+        },
+        {
+          title: "職業を分けると…",
+          note: "アンケートの職業欄です。「その他」もあるので完璧に見えますが…",
+          cats: ["会社員", "管理職", "自営業", "その他"],
+          verdict: "overlap",
+          level: 2,
+          explain: "「管理職」は立場の区分で、会社員の中に含まれます。会社員の管理職は「会社員」と「管理職」の両方に入るのでダブりです。「その他」があると漏れは防げますが、ダブりは防げません。",
+          tip: "直すなら：「会社員（一般）」「会社員（管理職）」のように同じ軸の中で段を作るか、管理職かどうかは別の質問に分けます。",
+          whyOthers: "「漏れがある」が一番の問題ではありません。「その他」があるので、どの職業の人も一応どこかには入ります。問題は「その他」では防げないダブりのほうです。「MECEになっている」でもありません。「その他」がある＝MECE、ではないのです。",
+          daily: "日常のコツ：アンケートや名簿の「その他」は漏れ対策として有効です。ただしダブりは別物。「その他」があるから安心と思わず、項目同士が重ならないかは別に確かめてください。"
+        },
+        {
+          title: "年齢で分けると…",
+          note: "イベント参加者を、満年齢で分けました",
+          cats: ["0〜5歳", "6〜12歳", "13〜18歳", "19歳以上"],
+          verdict: "ok",
+          level: 2,
+          explain: "一見、境界が怪しく見えますが、満年齢は整数なので「5歳の次は6歳」。5歳と6歳の間に誰もいませんし、重なる年齢もありません。0歳から19歳以上まで、漏れもダブりもないMECEです。",
+          tip: "ポイント：区切りが多いから怪しいのではなく、「間に入るものがあるか」「両方に入るものがあるか」で判定するのがコツです。",
+          whyOthers: "「漏れがある」ではありません。満年齢に小数はないので、5歳と6歳の間に落ちる人はいません。「ダブりがある」でもありません。1人の年齢が2つの区分に同時に入ることはありません。境界が多い＝怪しい、という先入観がひっかけです。",
+          daily: "日常のコツ：年齢・学年・回数のように整数で数えるものは、境界がきれいに切れます。逆に身長や金額のように小数が入るものは、境界で漏れ・ダブりが起きやすいので要注意です。"
+        },
+        {
+          title: "送料の区分を分けると…",
+          note: "通販の送料ルールを、注文金額で分けました",
+          cats: ["5,000円以下：送料500円", "5,000円以上：送料無料"],
+          verdict: "overlap",
+          level: 3,
+          explain: "ちょうど5,000円の注文が、両方に入ります。「以下」も「以上」も、その数字自体を含む言葉だからです。パッと見は完璧な二分法ですが、境界の1点だけダブっています。",
+          tip: "直すなら：片方を「5,000円未満」に変えると、境界が1か所に定まってMECEになります。",
+          whyOthers: "「漏れがある」ではありません。5,000円より安い注文も高い注文も、どちらかには入ります。漏れているのではなく、ちょうど境界の注文だけ行き場が2つあるのが問題です。",
+          daily: "日常のコツ：「以上／以下」「未満／超」といった境界の言葉は、料金表や契約でそのまま損得に直結します。表を作るときは境界の金額を1つ挙げて「これはどっち？」と声に出して確かめる癖を。"
+        },
+        {
+          title: "身長でクラス分けすると…",
+          note: "スポーツ大会のクラス分けです",
+          cats: ["150cm未満", "150〜160cm", "161〜170cm", "170cmを超える"],
+          verdict: "leak",
+          level: 3,
+          explain: "160cmを超えて161cm未満の人、たとえば160.5cmの人が、どこにも入りません。身長には小数があるのに、区切りを整数で飛ばしてしまったための漏れです。並びがきれいな分、気づきにくい漏れです。",
+          tip: "直すなら：「150〜160cm」を「150cm以上161cm未満」と書くか、次の区切りを「160cmを超える」から始めると漏れが消えます。",
+          whyOthers: "「ダブりがある」ではありません。各区切りの数字は重なっていません（170cmは「161〜170cm」に入り、「170cmを超える」には入りません）。問題は重なりではなく、160と161の間の「すきま」です。「MECEになっている」でもありません。",
+          daily: "日常のコツ：身長・体重・金額のように小数があり得るものは、「A〜B、B〜C」と整数でつなぐと、つなぎ目にすきまができます。「〜以上〜未満」の書き方に統一すると、すきまも重なりも起きません。"
+        },
+        {
+          title: "社員を分けると…",
+          note: "社内報で、社員の内訳を紹介する分類です",
+          cats: ["20代", "30代", "40代以上", "女性社員"],
+          verdict: "overlap",
+          level: 3,
+          explain: "「年代」の軸と「性別」の軸が混ざっています。20代の女性社員は「20代」と「女性社員」の両方に入るのでダブりです。人数を合計すると、社員の総数より多くなります。",
+          tip: "直すなら：年代の軸だけで分けるか、性別は別の表に分けます。2つの軸を並べたいときは、表を2つに分けるのが基本です。",
+          whyOthers: "「漏れがある」ではありません。全員、自分の年代には必ず入ります。問題は漏れではなく、女性社員だけ全年代と重なること。「MECEになっている」でもありません。合計すると実人数を超える分類は、ダブりありです。",
+          daily: "日常のコツ：資料で「年代別」と「男女別」を1つの円グラフに混ぜると、合計が100％を超えてしまいます。グラフや表は「1つの軸につき1つ」が鉄則です。"
+        },
+        {
+          title: "1日の時間帯を分けると…",
+          note: "アンケートで「よく使う時間帯」を聞くための分類です",
+          cats: ["朝 6:00〜9:00", "昼 11:00〜14:00", "夕方 16:00〜19:00", "夜 20:00〜翌6:00"],
+          format: "locate",
+          prompt: "この分け方には「漏れ」があります。どこが漏れている？",
+          answerKey: "gap",
+          level: 3,
+          options: [
+            { key: "gap", label: "区切りと区切りの間（9:00〜11:00など）が、どこにも入らない" },
+            { key: "night", label: "「夜」が翌6:00までなので、深夜の人が「朝」とダブって入る" },
+            { key: "evening", label: "「夕方」と「夜」が19時台でダブっている" },
+            { key: "none", label: "漏れはない。1日をきれいに分けられている" }
+          ],
+          explain: "朝・昼・夕方・夜と名前はそろっていますが、9:00〜11:00、14:00〜16:00、19:00〜20:00が空白です。「夜」が翌6:00まで届いているので深夜はカバーされていますが、日中の「間」が3か所も漏れています。",
+          tip: "直すなら：区切りを「〜9:00／9:00〜」のように数字でつなぐか、「午前／午後／夜」のような大きな枠で分けると漏れません。",
+          whyOthers: "「夜と朝のダブり」はありません。夜は翌6:00まで、朝は6:00からで、ちょうどつながっています。「夕方と夜のダブり」もありません。夕方は19:00まで、夜は20:00からで、むしろ間が空いています。「漏れはない」は、名前が4つそろっている見た目に引っ張られた判断です。",
+          daily: "日常のコツ：時間帯・営業時間・当番表のような「つながっているはずの区切り」は、前の終わりの数字と次の始まりの数字を並べて比べるだけで、すきまが見えます。"
+        },
+        {
+          title: "会員を分けると…",
+          note: "スポーツクラブの会員区分です",
+          cats: ["一般会員", "ゴールド会員", "学生会員", "シニア会員（65歳以上）"],
+          format: "locate",
+          prompt: "この分け方には「ダブり」があります。何がダブっている？",
+          answerKey: "axis",
+          level: 3,
+          options: [
+            { key: "axis", label: "「一般／ゴールド」は料金の軸、「学生／シニア」は属性の軸。学生のゴールド会員のように、両方に入る人がいる" },
+            { key: "student", label: "学生会員とシニア会員がダブっている" },
+            { key: "leakq", label: "ダブりではなく、未成年がどこにも入らない「漏れ」が問題" },
+            { key: "none2", label: "ダブりはない。料金が違うので、別の区分として扱える" }
+          ],
+          explain: "一般／ゴールドは「料金プラン」の軸、学生／シニアは「年齢・属性」の軸です。軸が2本混ざっているので、学生でありゴールド会員である人が、両方に数えられます。",
+          tip: "直すなら：料金プランの軸で1表、属性の軸で1表と、表を分けます。割引の判定は「プラン×属性」の組み合わせ表にすると明確です。",
+          whyOthers: "「学生とシニアのダブり」ではありません。通常、学生と65歳以上は重なりません。「未成年の漏れ」でもありません。未成年は学生会員か一般会員に入れます。「料金が違うから別」は、軸の混在を見逃した判断です。料金が違うことと、分類が重ならないことは別問題です。",
+          daily: "日常のコツ：料金表や会員制度のように「プラン」と「対象者」が混ざった表は、実務でもよくあります。表を見たらまず「これは何の軸？」を決めて読むと、ダブりに気づけます。"
+        }
+      ];
+      var MECE_LEVELS = { "四季を分けると…": 1, "食べ物を分けると…": 1, "信号の色を分けると…": 1, "「学生」を分けると…": 1, "血液型を分けると…": 1, "乗り物を分けると…": 1, "1週間を分けると…": 2, "飲み物を分けると…": 2 };
+      MECE_BANK.forEach(function(q){ if (!q.level) q.level = MECE_LEVELS[q.title] || 2; });
+      var MECE_CHOICES = [
+        { key: "leak", label: "漏れがある" },
+        { key: "overlap", label: "ダブりがある" },
+        { key: "ok", label: "MECEになっている（漏れもダブりもない）" }
+      ];
+      var MECE_LABEL = { leak: "漏れがある", overlap: "ダブりがある", ok: "MECEになっている" };
+
+      /* ---------- クイズ共通エンジン ---------- */
+      function makeQuiz(cfg){
+        var state = { list: [], idx: 0, score: 0, answered: false };
+        var els = {};
+        ["play","progress","dots","score","options","feedback","next","result","resultScore","resultMsg","share"].forEach(function(k){
+          els[k] = document.getElementById(cfg.id + "-" + k);
+        });
+        function renderDots(){
+          els.dots.innerHTML = "";
+          for (var i = 0; i < state.list.length; i++){
+            var d = document.createElement("span");
+            d.className = "dot" + (i < state.idx ? " done" : (i === state.idx ? " now" : ""));
+            els.dots.appendChild(d);
+          }
+        }
+        function start(){
+          state.list = cfg.pickList ? cfg.pickList() : shuffle(cfg.bank).slice(0, cfg.count);
+          state.idx = 0; state.score = 0;
+          els.result.classList.remove("show");
+          els.play.style.display = "";
+          showQuestion();
+        }
+        function showQuestion(){
+          state.answered = false;
+          var q = state.list[state.idx];
+          els.progress.textContent = "第" + (state.idx + 1) + "問 / " + state.list.length;
+          els.score.textContent = "正解 " + state.score;
+          renderDots();
+          cfg.renderQuestion(q);
+          els.options.innerHTML = "";
+          cfg.buildOptions(q).forEach(function(opt){
+            var b = document.createElement("button");
+            b.className = "opt";
+            b.textContent = opt.label;
+            b.addEventListener("click", function(){ answer(opt, b, q); });
+            els.options.appendChild(b);
+          });
+          els.feedback.className = "feedback";
+          els.feedback.innerHTML = "";
+          els.next.hidden = true;
+          els.next.textContent = (state.idx === state.list.length - 1) ? "結果を見る" : "次の問題へ";
+        }
+        function answer(opt, btn, q){
+          if (state.answered) return;
+          state.answered = true;
+          var correct = cfg.isCorrect(opt, q);
+          if (correct) state.score++;
+          els.score.textContent = "正解 " + state.score;
+          var buttons = els.options.querySelectorAll(".opt");
+          buttons.forEach(function(b, i){
+            b.disabled = true;
+            var o = cfg.buildOptionsCache[i];
+            if (cfg.isCorrect(o, q)){
+              b.classList.add("correct");
+              b.innerHTML = '<span class="mark">○</span>' + b.textContent;
+            } else if (b === btn){
+              b.classList.add("wrong");
+              b.innerHTML = '<span class="mark">×</span>' + b.textContent;
+            }
+          });
+          renderDotsDone();
+          els.feedback.className = "feedback show " + (correct ? "ok" : "ng");
+          var detailHtml = "";
+          if (q.why) detailHtml += '<div class="detail"><h4>ほかの選択肢は、なぜ違う？</h4><p>' + q.why + "</p></div>";
+          if (q.whyOthers) detailHtml += '<div class="detail"><h4>ほかの判定は、なぜ違う？</h4><p>' + q.whyOthers + "</p></div>";
+          if (q.daily) detailHtml += '<div class="daily"><b>日常で使うコツ：</b>' + q.daily.replace(/^日常のコツ：/, "") + "</div>";
+          if (cfg.article) detailHtml += '<a class="article-link" href="' + cfg.article.url + '" target="_blank" rel="noopener"><span class="al-label">解説の続きは記事で</span><span class="al-title">' + cfg.article.title + '</span><span class="al-note">新しいタブで開きます</span></a>';
+          els.feedback.innerHTML =
+            "<b>" + (correct ? "正解です。" : "惜しい。正解は「" + cfg.answerLabel(q) + "」。") + "</b>" +
+            cfg.explain(q) + detailHtml +
+            '<p class="paper-tip"><b>紙でも考える：</b>' + q.tip.replace(/^.*?：/, "") + "</p>";
+          els.next.hidden = false;
+          els.next.focus();
+        }
+        function renderDotsDone(){
+          var dots = els.dots.children;
+          if (dots[state.idx]) dots[state.idx].className = "dot done";
+        }
+        els.next.addEventListener("click", function(){
+          if (state.idx < state.list.length - 1){ state.idx++; showQuestion(); }
+          else { showResult(); }
+        });
+        function showResult(){
+          els.play.style.display = "none";
+          els.result.classList.add("show");
+          els.resultScore.textContent = state.list.length + "問中 " + state.score + "問 正解";
+          els.resultMsg.textContent = cfg.resultMessage(state.score, state.list.length);
+          els.share.value = cfg.shareText(state.score, state.list.length);
+          if (cfg.belt) cfg.belt(state.score, state.list.length);
+          document.getElementById(cfg.id + "-copy-note").textContent = "";
+        }
+        document.getElementById(cfg.id + "-restart").addEventListener("click", start);
+        document.getElementById(cfg.id + "-copy").addEventListener("click", function(){
+          copyText(cfg.id + "-share", cfg.id + "-copy-note");
+        });
+        return { start: start };
+      }
+
+      var commonQuiz = makeQuiz({
+        id: "common",
+        bank: COMMON_BANK,
+        count: 5,
+        renderQuestion: function(q){
+          var box = document.getElementById("common-words");
+          box.innerHTML = "";
+          q.words.forEach(function(w, i){
+            if (i > 0){
+              var sep = document.createElement("span");
+              sep.className = "word-sep"; sep.textContent = "・";
+              box.appendChild(sep);
+            }
+            var s = document.createElement("span");
+            s.className = "word"; s.textContent = w;
+            box.appendChild(s);
+          });
+        },
+        buildOptions: function(q){
+          var opts = shuffle(q.options).map(function(label){ return { label: label }; });
+          this.buildOptionsCache = opts;
+          return opts;
+        },
+        buildOptionsCache: [],
+        isCorrect: function(opt, q){ return opt.label === q.answer; },
+        answerLabel: function(q){ return q.answer; },
+        explain: function(q){ return q.explain; },
+        article: { url: "https://datsu-digi.vercel.app/posts/atama-mode-4tsu", title: "アイデアが出ないのは、頭の使い方のモードが違うから" },
+        resultMessage: function(score, total){
+          if (score === total) return "見事です。見た目に頼らず、意味の奥まで掘れています。この調子で、身の回りの言葉でも試してみてください。";
+          if (score >= 3) return "よく考えられています。外した問題は、解説の「掘り方」を真似すると次は解けます。";
+          return "抽象的な言葉は、最初は手がかりが少なくて当然です。解説を読みながら「意味で比べる」感覚を掴んでください。";
+        },
+        shareText: function(score, total){
+          return "頭の体操「共通点さがし」で " + total + "問中 " + score + "問正解でした。抽象的な言葉の共通点、意外と頭を使います。 #頭の体操 #脱デジ道場";
+        }
+      });
+
+      var meceQuiz = makeQuiz({
+        id: "mece",
+        bank: MECE_BANK,
+        count: 5,
+        renderQuestion: function(q){
+          document.getElementById("mece-title").textContent = q.title;
+          document.getElementById("mece-note").textContent = q.note;
+          document.querySelector("#panel-mece .q-text").textContent = q.prompt || "この分け方は、どうなっている？";
+          var box = document.getElementById("mece-words");
+          box.innerHTML = "";
+          q.cats.forEach(function(c){
+            var s = document.createElement("span");
+            s.className = "word"; s.textContent = c;
+            box.appendChild(s);
+          });
+        },
+        pickList: function(){
+          function byLevel(lv){ return shuffle(MECE_BANK.filter(function(q){ return q.level === lv; })); }
+          var l1 = byLevel(1), l2 = byLevel(2), l3 = byLevel(3);
+          var list = [l1[0], l1[1], l2[0], l3[0], l3[1]];
+          return list.filter(Boolean);
+        },
+        buildOptions: function(q){
+          var opts = q.options ? shuffle(q.options) : MECE_CHOICES.slice();
+          this.buildOptionsCache = opts;
+          return opts;
+        },
+        buildOptionsCache: [],
+        isCorrect: function(opt, q){ return q.answerKey ? opt.key === q.answerKey : opt.key === q.verdict; },
+        answerLabel: function(q){
+          if (q.answerKey){
+            for (var i = 0; i < q.options.length; i++){ if (q.options[i].key === q.answerKey) return q.options[i].label; }
+          }
+          return MECE_LABEL[q.verdict];
+        },
+        explain: function(q){ return q.explain; },
+        article: { url: "https://datsu-digi.vercel.app/posts/kozoka-wakeru-nyumon", title: "ごちゃごちゃを整理する「分け方」のコツ：もれなく、ダブりなく" },
+        resultMessage: function(score, total){
+          if (score === total) return "見事です。「漏れ」と「ダブり」を分けて見られる目は、資料作りでも買い物でも効きます。";
+          if (score >= 3) return "よく見抜けています。外した問題は「軸が混ざっていないか」「総数を数えたか」を確認してみてください。";
+          return "MECEは慣れの世界です。まず「全部でいくつあるはず？」と数える癖をつけると、判定がぐっと楽になります。";
+        },
+        shareText: function(score, total){
+          return "頭の体操「MECEにできるか」で " + total + "問中 " + score + "問正解でした。漏れとダブりを見抜く練習、仕事の資料作りに直結します。 #頭の体操 #脱デジ道場";
+        },
+        belt: function(score, total){
+          var bands = [
+            { name: "白帯", cls: "belt-white", stage: "入門 ― 分け方に目が向き始めた段階", comment: "まずは「全部でいくつあるはず？」と総数を数える癖から。ここがMECEの入口です。" },
+            { name: "白帯", cls: "belt-white", stage: "入門 ― 分け方に目が向き始めた段階", comment: "まずは「全部でいくつあるはず？」と総数を数える癖から。ここがMECEの入口です。" },
+            { name: "黄帯", cls: "belt-yellow", stage: "初級 ― 漏れかダブりか、どちらかは見抜ける段階", comment: "あと一歩です。外した問題は「軸が混ざっていないか」を確かめると、判定が安定します。" },
+            { name: "緑帯", cls: "belt-green", stage: "中級 ― 漏れとダブりを分けて見られる段階", comment: "日常の整理にも使える目になってきました。資料作りで「枠を先に置く」を試してみてください。" },
+            { name: "青帯", cls: "belt-blue", stage: "上級 ― 軸の混在まで見抜ける段階", comment: "かなり確かです。あとは総数が曖昧な題材（若者・ベテランなど）で定義を決める練習が効きます。" },
+            { name: "黒帯", cls: "belt-black", stage: "師範 ― 漏れ・ダブり・軸の混在をすべて見抜いた段階", comment: "見事です。その目は会議の資料チェックでも頼りにされるレベルです。ぜひ人に分けるコツを教えてあげてください。" }
+          ];
+          var b = bands[Math.max(0, Math.min(score, total))];
+          document.getElementById("mece-belt-visual").className = "belt-visual " + b.cls;
+          document.getElementById("mece-belt-name").textContent = b.name;
+          document.getElementById("mece-belt-stage").textContent = b.stage;
+          document.getElementById("mece-belt-comment").textContent = b.comment;
+          var ta = document.getElementById("mece-share");
+          if (ta && ta.value.indexOf("帯") === -1) ta.value = ta.value.replace("でした。", "でした。成果の分類は「" + b.name + "」です。");
+        }
+      });
+
+      commonQuiz.start();
+      meceQuiz.start();
+
+      /* ================= たして10パズル ================= */
+      var COLS = 5, ROWS = 8, TOTAL = 30, TICK = 780;
+      var NUM_WEIGHTS = [5, 6, 8, 10, 12, 14, 15, 15, 15]; /* 数字1〜9の出現率（合計100）。大きい数字を多めにして、消しきれず積み上がる場面を作る */
+      var board = [], cur = null, nextNum = null, spawned = 0, tScore = 0, tPairs = 0;
+      var clearBaseScore = 0, chainBonusScore = 0, totalCleared = 0, maxSimultaneous = 0, maxChain = 0;
+      var timer = null, running = false, finished = false;
+      var boardEl = document.getElementById("t-board");
+      var msgEl = document.getElementById("t-msg");
+      var startBtn = document.getElementById("t-start");
+      var ctrlBtns = [document.getElementById("t-left-btn"), document.getElementById("t-down-btn"), document.getElementById("t-right-btn")];
+
+      function emptyBoard(){
+        board = [];
+        for (var r = 0; r < ROWS; r++){ board.push(new Array(COLS).fill(0)); }
+      }
+      function randNum(){
+        var totalW = 0, i;
+        for (i = 0; i < NUM_WEIGHTS.length; i++) totalW += NUM_WEIGHTS[i];
+        var roll = Math.random() * totalW;
+        for (i = 0; i < NUM_WEIGHTS.length; i++){
+          roll -= NUM_WEIGHTS[i];
+          if (roll < 0) return i + 1;
+        }
+        return 9;
+      }
+      function renderBoard(){
+        boardEl.innerHTML = "";
+        for (var r = 0; r < ROWS; r++){
+          for (var c = 0; c < COLS; c++){
+            var v = board[r][c];
+            var isCur = cur && cur.y === r && cur.x === c;
+            if (isCur) v = cur.n;
+            var d = document.createElement("div");
+            d.className = "cell" + (v ? " filled n" + v : "") + (isCur ? " current" : "");
+            d.textContent = v ? v : "";
+            boardEl.appendChild(d);
+          }
+        }
+        document.getElementById("t-score").textContent = tScore;
+        document.getElementById("t-pairs").textContent = tPairs;
+        document.getElementById("t-left").textContent = Math.max(0, TOTAL - spawned);
+        document.getElementById("t-next").textContent = running && nextNum ? nextNum : "―";
+      }
+      function canPlace(x, y){ return x >= 0 && x < COLS && y < ROWS && (y < 0 || board[y][x] === 0); }
+      function spawn(){
+        if (spawned >= TOTAL){ endGame(false); return; }
+        spawned++;
+        cur = { n: nextNum, x: 2, y: 0 };
+        nextNum = spawned < TOTAL ? randNum() : null;
+        if (board[0][2] !== 0){ cur = null; endGame(true); return; }
+        renderBoard();
+      }
+      function step(){
+        if (!cur) return;
+        if (canPlace(cur.x, cur.y + 1)){ cur.y++; renderBoard(); }
+        else { land(); }
+      }
+      function land(){
+        board[cur.y][cur.x] = cur.n;
+        cur = null;
+        renderBoard();
+        resolveClears(0);
+        if (!finished){
+          var toppedOut = false;
+          for (var tc = 0; tc < COLS; tc++){ if (board[0][tc] !== 0){ toppedOut = true; break; } }
+          if (toppedOut){ endGame(true); }
+          else if (spawned >= TOTAL){ endGame(false); }
+          else { spawn(); }
+        }
+      }
+      function findClears(){
+        var marked = {};
+        var cells = [];
+        var runs = 0;
+        function markRun(list){
+          runs++;
+          list.forEach(function(p){
+            var key = p[0] + "," + p[1];
+            if (!marked[key]){ marked[key] = true; cells.push(p); }
+          });
+        }
+        var r, c, e, sum, list, i;
+        // 横方向：連続した並びの合計がちょうど10（2つ以上）
+        for (r = 0; r < ROWS; r++){
+          for (c = 0; c < COLS; c++){
+            if (!board[r][c]) continue;
+            sum = 0; list = [];
+            for (e = c; e < COLS; e++){
+              if (!board[r][e]) break;
+              sum += board[r][e];
+              list.push([r, e]);
+              if (sum === 10 && list.length >= 2) markRun(list.slice());
+              if (sum >= 10) break;
+            }
+          }
+        }
+        // 縦方向：連続した並びの合計がちょうど10（2つ以上）
+        for (c = 0; c < COLS; c++){
+          for (r = 0; r < ROWS; r++){
+            if (!board[r][c]) continue;
+            sum = 0; list = [];
+            for (e = r; e < ROWS; e++){
+              if (!board[e][c]) break;
+              sum += board[e][c];
+              list.push([e, c]);
+              if (sum === 10 && list.length >= 2) markRun(list.slice());
+              if (sum >= 10) break;
+            }
+          }
+        }
+        return runs > 0 ? { cells: cells, runs: runs } : null;
+      }
+      function applyGravity(){
+        for (var c = 0; c < COLS; c++){
+          var stack = [];
+          for (var r = ROWS - 1; r >= 0; r--){ if (board[r][c]) stack.push(board[r][c]); }
+          for (var r2 = ROWS - 1, i = 0; r2 >= 0; r2--, i++){ board[r2][c] = i < stack.length ? stack[i] : 0; }
+        }
+      }
+      function resolveClears(chain){
+        var found = findClears();
+        if (!found) return;
+        found.cells.forEach(function(p){ board[p[0]][p[1]] = 0; });
+        tPairs += found.runs;
+        var n = found.cells.length;
+        var perPiece = 10 + Math.max(0, n - 2) * 5;
+        if (perPiece > 35) perPiece = 35;
+        var basePts = n * perPiece;
+        var mult = chain + 1;
+        var gained = basePts * mult;
+        clearBaseScore += basePts;
+        chainBonusScore += gained - basePts;
+        tScore += gained;
+        totalCleared += n;
+        if (n > maxSimultaneous) maxSimultaneous = n;
+        if (mult > maxChain) maxChain = mult;
+        if (chain > 0) msgEl.textContent = (chain + 1) + "連鎖！ ×" + mult + "で " + gained + "点。落ちた先でも10になりました。";
+        else if (n >= 3) msgEl.textContent = n + "つ同時消し！ 1個" + perPiece + "点で " + gained + "点。まとめて消えました。";
+        else msgEl.textContent = "合計10で消えました（" + gained + "点）。";
+        applyGravity();
+        renderBoard();
+        resolveClears(chain + 1);
+      }
+      function setControls(on){
+        ctrlBtns.forEach(function(b){ b.disabled = !on; });
+      }
+      function startGame(){
+        emptyBoard();
+        spawned = 0; tScore = 0; tPairs = 0;
+        clearBaseScore = 0; chainBonusScore = 0; totalCleared = 0; maxSimultaneous = 0; maxChain = 0;
+        finished = false; running = true;
+        nextNum = randNum();
+        document.getElementById("t-result").classList.remove("show");
+        msgEl.textContent = "考えながら置いてください。合計10で消えます。";
+        startBtn.textContent = "最初からやり直す";
+        setControls(true);
+        spawn();
+        if (timer) clearInterval(timer);
+        timer = setInterval(step, TICK);
+      }
+      function endGame(topped){
+        finished = true; running = false;
+        if (timer){ clearInterval(timer); timer = null; }
+        setControls(false);
+        cur = null;
+        renderBoard();
+        var remainingBlocks = 0;
+        for (var r = 0; r < ROWS; r++){ for (var c = 0; c < COLS; c++){ if (board[r][c]) remainingBlocks++; } }
+        var endBonus = 0, allClearBonus = 0;
+        if (remainingBlocks === 0){ allClearBonus = 500; }
+        else if (remainingBlocks < 15){ endBonus = (15 - remainingBlocks) * 20; }
+        var finalScore = tScore + endBonus + allClearBonus;
+        msgEl.textContent = topped ? "てっぺんまで積み上がりました。ここまでが1セットです。" : TOTAL + "個すべて置き終わりました。ここまでが1セットです。";
+        var res = document.getElementById("t-result");
+        res.classList.add("show");
+        document.getElementById("t-result-score").textContent = "スコア " + finalScore;
+        document.getElementById("t-result-msg").textContent =
+          remainingBlocks === 0 ? "全消し達成です。30個すべてを使い切り、盤面も空っぽ。見事な置き方でした。" :
+          topped ? "てっぺんまで積み上がって終了です。大きい数字の置き場を1列に寄せず分散させると、詰まりにくくなります。" :
+          maxChain >= 2 ? "最後まで使い切れました。連鎖も決まっています。同時消しの個数を増やすと、さらに伸びます。" :
+          "最後まで使い切れました。同時に消す個数を増やすと、1個あたりの得点が上がります。";
+        document.getElementById("t-breakdown").innerHTML =
+          '<p class="sb-title">得点の内訳</p>' +
+          '<div class="sb-row"><span>消去点<span class="sb-note">' + tPairs + "組・" + totalCleared + "個消し／最大同時 " + maxSimultaneous + '個</span></span><b>' + clearBaseScore + '点</b></div>' +
+          '<div class="sb-row"><span>連鎖ボーナス<span class="sb-note">' + (maxChain >= 2 ? "最大 " + maxChain + "連鎖（連鎖は倍率）" : "連鎖なし") + '</span></span><b>' + chainBonusScore + '点</b></div>' +
+          '<div class="sb-row"><span>残りブロックボーナス<span class="sb-note">盤面に残り ' + remainingBlocks + '個（少ないほど大きい）</span></span><b>' + endBonus + '点</b></div>' +
+          (allClearBonus ? '<div class="sb-row"><span>全消しボーナス</span><b>' + allClearBonus + '点</b></div>' : "") +
+          '<div class="sb-row sb-total"><span>合計</span><b>' + finalScore + '点</b></div>';
+        document.getElementById("t-share").value =
+          "頭の体操「たして10パズル」で スコア" + finalScore + "（消去" + clearBaseScore + "点＋連鎖" + chainBonusScore + "点＋残りボーナス" + (endBonus + allClearBonus) + "点／" + tPairs + "組消去）でした。暗算しながら置く落下パズルです。 #頭の体操 #脱デジ道場";
+        document.getElementById("t-copy-note").textContent = "";
+        startBtn.textContent = "もう1セット遊ぶ";
+      }
+      function pauseGame(){
+        if (running && timer){ clearInterval(timer); timer = null; msgEl.textContent = "一時停止中です。このタブに戻ると再開します。"; }
+      }
+      function resumeGame(){
+        if (running && !timer && !finished){ timer = setInterval(step, TICK); msgEl.textContent = "再開しました。合計10で消えます。"; }
+      }
+      startBtn.addEventListener("click", startGame);
+      document.getElementById("t-copy").addEventListener("click", function(){ copyText("t-share", "t-copy-note"); });
+      function move(dx){ if (cur && canPlace(cur.x + dx, cur.y)){ cur.x += dx; renderBoard(); } }
+      function softDrop(){ if (cur){ step(); } }
+      document.getElementById("t-left-btn").addEventListener("click", function(){ move(-1); });
+      document.getElementById("t-right-btn").addEventListener("click", function(){ move(1); });
+      document.getElementById("t-down-btn").addEventListener("click", softDrop);
+      document.addEventListener("keydown", function(e){
+        if (!running || document.getElementById("panel-tasu").hidden) return;
+        if (e.key === "ArrowLeft"){ move(-1); e.preventDefault(); }
+        else if (e.key === "ArrowRight"){ move(1); e.preventDefault(); }
+        else if (e.key === "ArrowDown"){ softDrop(); e.preventDefault(); }
+      });
+      emptyBoard();
+      renderBoard();
+
+      /* ================= タブ切り替え ================= */
+      var tabs = document.querySelectorAll(".tab");
+      tabs.forEach(function(tab){
+        tab.addEventListener("click", function(){
+          var name = tab.getAttribute("data-tab");
+          tabs.forEach(function(t){ t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
+          ["common", "mece", "tasu"].forEach(function(n){
+            document.getElementById("panel-" + n).hidden = (n !== name);
+          });
+          if (name === "tasu"){ resumeGame(); } else { pauseGame(); }
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
+</html>

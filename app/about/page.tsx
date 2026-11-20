@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME, SITE_URL, CONTACT_EMAIL } from "@/lib/site";
+import { SITE_NAME, SITE_URL, CONTACT_EMAIL, SISTER_SITES } from "@/lib/site";
 import { PROFILE } from "@/lib/profile";
 
 export const metadata = { title: "運営者情報", description: `${SITE_NAME}の運営方針と、道場主のプロフィールです。` };
@@ -74,6 +74,19 @@ export default function AboutPage() {
           <li>他サイトの文章を転載せず、すべて自分の言葉で書きます</li>
           <li>下書きや整理にAIを使うことがあります。内容は筆者が確認し、編集したうえで掲載します</li>
           <li>誤りや古い情報が見つかった場合は、確認のうえ修正します</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 className={h2}>姉妹サイト</h2>
+        <p>同じ運営者が、別テーマで運営しているサイトです。</p>
+        <ul className="list-disc pl-5 mt-3 space-y-1.5">
+          {SISTER_SITES.map((s) => (
+            <li key={s.url}>
+              <a href={s.url} target="_blank" rel="noopener" className="underline font-bold">{s.name}</a>: {s.desc}。
+              {s.name.startsWith("BookHome") && "読み聞かせや読書ノートの稽古とあわせて、子どもの本の管理にも使えます。"}
+            </li>
+          ))}
         </ul>
       </section>
 
