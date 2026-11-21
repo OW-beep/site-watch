@@ -8,6 +8,7 @@ import Byline from "@/components/Byline";
 import PostCard from "@/components/PostCard";
 import PostFooterNav from "@/components/PostFooterNav";
 import AuthorBox from "@/components/AuthorBox";
+import ArticleBooks from "@/components/ArticleBooks";
 import { BELTS, getAllPosts, getPost } from "@/lib/posts";
 import { getCategoryByLabel } from "@/lib/categories";
 import { termsIn } from "@/lib/glossary";
@@ -104,6 +105,9 @@ export default async function PostPage({ params }: { params: { slug: string } })
           <ul className="list-disc pl-5 space-y-1">{meta.sources.map((x) => <li key={x}>{x}</li>)}</ul>
           <p className="text-xs text-sumi-soft mt-3">本サイトの例題・図解・回答例は、筆者が作成したものです。書籍の文章は引用していません。</p>
         </aside>
+      )}
+      {meta.books.length > 0 && (
+        <ArticleBooks books={meta.books} heading={meta.booksHeading} slug={meta.slug} />
       )}
       <AuthorBox />
       <AdUnit slot={SLOT_ARTICLE} />

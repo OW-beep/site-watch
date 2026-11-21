@@ -12,6 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const cats = CATEGORIES.filter((c) => all.some((p) => p.category === c.label)).map((c) => ({ url: `${SITE_URL}/category/${c.slug}` }));
   const levels = BELTS.filter((b) => all.some((p) => p.belt === b)).map((b) => ({ url: `${SITE_URL}/level/${b}` }));
   const ages = AGES.filter((a) => all.some((p) => p.age === a)).map((a) => ({ url: `${SITE_URL}/age/${a}` }));
-  const fixed = ["", "/start", "/posts", "/training", "/about", "/editorial-policy", "/resources", "/sheets", "/tools/hikaku", "/tools/ai-shiwake", "/tools/datsudeji-check", "/problems", "/glossary", "/contact", "/privacy", "/sitemap"].map((p) => ({ url: `${SITE_URL}${p}` }));
+  const fixed = ["", "/start", "/posts", "/training", "/about", "/editorial-policy", "/resources", "/sheets", "/tools/hikaku", "/tools/ai-shiwake", "/tools/datsudeji-check", "/tools/datsu-digi-game-okiba.html", "/problems", "/glossary", "/contact", "/privacy", "/sitemap"].map((p) => ({ url: `${SITE_URL}${p}` }));
   return [...fixed, ...levels, ...ages, ...cats, ...posts];
 }

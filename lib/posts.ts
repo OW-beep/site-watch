@@ -10,11 +10,21 @@ export const BELTS = ["white", "yellow", "green", "blue", "black"] as const;
 export const AGES = ["elem", "junior"] as const;
 export type Age = (typeof AGES)[number];
 export type Belt = (typeof BELTS)[number];
+// 記事に紐づく購入導線用の本。フロントマターの books: に書くと、
+// 記事末尾に購入ボタン付きの本リスト（PR表記つき）が表示されます。
+// isbn は13桁（ハイフンなし）。楽天ブックス・Amazonの検索キーに使われます。
+export type PostBook = {
+  title: string;
+  author?: string;
+  isbn?: string;
+  note?: string;
+};
 export type PostMeta = {
   slug: string; title: string; category: string; date: string; updated?: string;
   excerpt: string; belt: Belt; noindex: boolean; tldr: string[];
   training: boolean; minutes?: number; track?: string;
   sources: string[]; fieldNote?: string; age?: Age;
+  books: PostBook[]; booksHeading?: string;
 };
 export type Toc = { id: string; text: string };
 
@@ -35,6 +45,17 @@ function meta(slug: string, d: Record<string, unknown>): PostMeta {
     sources: Array.isArray(d.sources) ? d.sources.map(String) : [],
     fieldNote: d.field_note ? String(d.field_note) : undefined,
     age: ((AGES as readonly string[]).includes(String(d.age)) ? d.age : undefined) as Age | undefined,
+    books: Array.isArray(d.books)
+      ? (d.books as Record<string, unknown>[])
+          .map((b) => ({
+            title: String(b.title ?? ""),
+            author: b.author ? String(b.author) : undefined,
+            isbn: b.isbn ? String(b.isbn) : undefined,
+            note: b.note ? String(b.note) : undefined,
+          }))
+          .filter((b) => b.title)
+      : [],
+    booksHeading: d.booksHeading ? String(d.booksHeading) : undefined,
   };
 }
 

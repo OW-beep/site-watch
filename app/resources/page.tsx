@@ -7,6 +7,7 @@ const ITEMS = [
   { href: "/tools/hikaku", title: "判断軸×重みの比較ツール", desc: "候補を点数にして比べます。引っ越し先、ノート、家電選びに。入力内容は保存されません。" },
   { href: "/tools/ai-shiwake", title: "AIに任せる/残す 仕分けツール", desc: "作業を3つの質問で仕分けます。AIとの付き合い方の目安が出ます。入力内容は保存されません。" },
   { href: "/tools/datsudeji-check", title: "脱デジ度チェック", desc: "10の質問で、デジタルの使い方のクセを診断します。結果に合わせて、おすすめの稽古を案内します。入力内容は保存されません。" },
+  { href: "/tools/datsu-digi-game-okiba.html", title: "頭の体操ゲーム置き場", desc: "ルールがひとつ多い、3本の頭の体操ゲーム。たして10、共通点さがし、MECEにできるか。1回で終わるので、気軽にどうぞ。" },
   { href: "/glossary", title: "用語集", desc: "MECE、フェルミ推定、仮説など、記事に出てくる言葉をやさしく説明します。" },
 ];
 
